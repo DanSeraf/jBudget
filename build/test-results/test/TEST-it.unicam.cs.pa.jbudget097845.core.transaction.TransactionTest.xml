@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="it.unicam.cs.pa.jbudget097845.core.transaction.TransactionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T06:33:43" hostname="turtigentoo" time="0.001">
-  <properties/>
-  <testcase name="addMovement" classname="it.unicam.cs.pa.jbudget097845.core.transaction.TransactionTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
