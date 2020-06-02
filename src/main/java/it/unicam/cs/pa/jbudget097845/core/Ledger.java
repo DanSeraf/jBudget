@@ -5,6 +5,7 @@ import it.unicam.cs.pa.jbudget097845.core.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
+import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.exc.TransactionError;
 
@@ -20,8 +21,11 @@ public class Ledger implements Registry {
     private List<Transaction> transactions = new ArrayList<>();
     private List<ScheduledTransaction> scheduledTransactions = new ArrayList<>();
     private List<Tag> tags = new ArrayList<>();
-    private List<ScheduledTransaction> scheduledTransaction = new ArrayList<>();
     private AccountFactory accountManager = new AccountFactory();
+
+    public Ledger() {
+        addAccount(AccountType.ASSETS, "Banca", "Banca Unicredit", 10000);
+    }
 
     @Override
     public List<Account> getAccounts() {
@@ -72,7 +76,8 @@ public class Ledger implements Registry {
     }
 
     @Override
-    public void addAccount(AccountType type, String name, String description, double openingBalance) {
+    public void addAccount(AccountType type, String name, String description, double openingBalance)
+    throws AccountCreationError {
         Account new_account = accountManager.newAccount(type, name, description, openingBalance);
         this.accounts.add(new_account);
     }
@@ -85,7 +90,7 @@ public class Ledger implements Registry {
 
     @Override
     public void addScheduledTransaction(ScheduledTransaction st) {
-        this.scheduledTransaction.add(st);
+        this.scheduledTransactions.add(st);
     }
 
     @Override
