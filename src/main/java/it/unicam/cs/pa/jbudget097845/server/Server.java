@@ -3,18 +3,22 @@ package it.unicam.cs.pa.jbudget097845.server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.cs.pa.jbudget097845.core.Controller;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
+import org.apache.log4j.BasicConfigurator;
+import static spark.Spark.*;
 
 import java.io.StringWriter;
 import java.util.Map;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
+import static spark.Spark.port;
 
 public class Server {
 
     private Server class_instance = null;
+    private static Endpoints ep = new Endpoints();
 
-    private Server () {}
+    private Server () {
+    }
 
     private Server Server() {
         if (this.class_instance == null) {
@@ -23,35 +27,16 @@ public class Server {
         return this.class_instance;
     }
 
-    public static void run() {
-        newAccount();
-        getAccounts();
+    public static void run(String address, int port) {
+        ipAddress(address);
+        port(port);
+        BasicConfigurator.configure();
+        openEndpoints();
     }
 
-    public static void newAccount() {
-        post("/newaccount", ((request, response) -> {
-            String name = request.queryParams("name");
-            String description = request.queryParams("description");
-            String type = request.queryParams("type");
-            String openingBalance = request.queryParams("opening_balance");
-
-            try {
-                Controller.generateAccount(name, description, type, openingBalance);
-                response.status(200);
-            } catch (AccountCreationError ace){
-                response.status(500);
-            } finally {
-                if (response.status() == 200) return "SUCCESS";
-                else return "FAILED";
-            }
-        }));
+    public static void openEndpoints() {
+        ep.newAccount();
+        ep.getAccounts();
     }
 
-    public static void getAccounts() {
-        get("/accounts", ((request, response) -> {
-            Map<String, Map<String, String>> accounts = Controller.getAccounts();
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(accounts);
-        }));
-    }
 }
