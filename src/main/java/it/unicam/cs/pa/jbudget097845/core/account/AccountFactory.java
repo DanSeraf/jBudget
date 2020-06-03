@@ -14,9 +14,9 @@ public class AccountFactory {
 
     public Account newAccount(
             AccountType accountType, String name, String description,
-            double openingBalance, boolean hasLimit) throws AccountCreationError {
+            double openingBalance, boolean belowZero) throws AccountCreationError {
         switch (accountType) {
-            case ASSETS: return new GeneralLiabilitiesAccount(ids.incrementAndGet(), openingBalance, name, description, hasLimit);
+            case ASSETS: return new GeneralAssetAccount(ids.incrementAndGet(), openingBalance, name, description, belowZero);
             default: throw new AccountCreationError("Error while creating a new account");
         }
     }
@@ -25,8 +25,8 @@ public class AccountFactory {
             AccountType accountType, String name, String description,
             double openingBalance) throws AccountCreationError {
         switch (accountType) {
-            case LIABILITIES: return new GeneralAssetAccount(ids.incrementAndGet(), openingBalance, name, description);
-            case ASSETS: return new GeneralLiabilitiesAccount(ids.incrementAndGet(), openingBalance, name, description, true);
+            case LIABILITIES: return new GeneralLiabilitiesAccount(ids.incrementAndGet(), openingBalance, name, description);
+            case ASSETS: return new GeneralAssetAccount(ids.incrementAndGet(), openingBalance, name, description, false);
             default: throw new AccountCreationError("Error while creating a new account");
         }
     }

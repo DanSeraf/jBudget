@@ -13,27 +13,25 @@ public class GeneralLiabilitiesAccount implements Account {
 
     private final static AccountType type = AccountType.ASSETS;
     private final int id;
-    private boolean hasLimit;
     private double openingBalance;
     private double balance;
     private String name;
     private String description;
     private List<Movement> movements = new ArrayList<>();
 
-    public GeneralLiabilitiesAccount(int id, double openingBalance, String name, String description, boolean hasLimit) {
+    public GeneralLiabilitiesAccount(int id, double openingBalance, String name, String description) {
         this.id = id;
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
-        this.hasLimit = hasLimit;
     }
 
     @Override
     public void addMovement(Movement m) throws AccountBalanceError {
-        if (m.type() == MovementType.CREDIT) {
+        if (m.type() == MovementType.DEBIT) {
             this.balance += m.amount();
-        } else if (m.type() == MovementType.DEBIT) {
-            if (this.balance < m.amount() && hasLimit)
+        } else if (m.type() == MovementType.CREDIT) {
+            if (this.balance < m.amount())
                 throw new AccountBalanceError(String.format(
                         "Trying to remove amount '%.2f' on a limited account with balance '%.2f'",
                         m.amount(), this.balance));

@@ -17,29 +17,27 @@ public class GeneralAssetAccount implements Account {
     private String name;
     private String description;
     private List<Movement> movements;
+    private boolean belowZero;
 
-    public GeneralAssetAccount(int id, double openingBalance, String name, String description) {
+    public GeneralAssetAccount(int id, double openingBalance, String name, String description, boolean belowZero) {
         this.id = id;
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
+        this.belowZero = belowZero;
     }
 
     @Override
     public void addMovement(Movement m) throws AccountBalanceError {
-        if (m.type() == MovementType.CREDIT) {
-            if (this.balance < m.amount())
+        if (m.type() == MovementType.DEBIT) {
+            if (this.balance < m.amount() && !belowZero)
                 throw new AccountBalanceError(String.format(
                         "Trying to remove amount '%.2f' on account with balance '%.2f'", m.amount(), this.balance));
             this.balance -= m.amount();
-        } else if (m.type() == MovementType.DEBIT) {
+        } else if (m.type() == MovementType.CREDIT) {
             this.balance += m.amount();
         }
         this.movements.add(m);
-    }
-
-    public void deleteMovement(Movement m) {
-        this.movements.remove(m);
     }
 
     @Override

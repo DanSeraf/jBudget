@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AccountTest {
 
     @Test
-    @DisplayName("Account generation")
-    public void createAccount() {
+    @DisplayName("Asset account generation")
+    public void createAssetAccount() {
         AccountFactory accountManager = new AccountFactory();
         Account account = accountManager.newAccount(
                 AccountType.ASSETS, "Bank", "Bank Account", 10000);
@@ -22,11 +22,24 @@ public class AccountTest {
     }
 
     @Test
-    @DisplayName("Account creation error while creating an account of type LIABILITIES")
+    @DisplayName("Liabilities account generation")
+    public void createLiabilitiesAccount() {
+        AccountFactory accountManager = new AccountFactory();
+        Account account = accountManager.newAccount(
+                AccountType.LIABILITIES, "Loan", "Loan expenses account", 10000);
+
+        assertEquals(10000, account.getBalance());
+        assertEquals(10000, account.getOpeningBalance());
+        assertEquals("Loan", account.getName());
+        assertEquals("Loan expenses account", account.getDescription());
+    }
+
+    @Test
+    @DisplayName("Account creation error while creating an account that can't go under the zero")
     public void createAccountError() {
         AccountFactory accountManager = new AccountFactory();
         assertThrows(AccountCreationError.class, () -> accountManager.newAccount(
-                AccountType.LIABILITIES, "Loan", "Loan expenses", 0, true));
+                AccountType.LIABILITIES, "Loan", "Loan expenses Account", 10000, true));
 
     }
 }
