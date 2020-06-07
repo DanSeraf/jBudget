@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.core.transaction;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
@@ -12,21 +13,11 @@ import java.util.List;
 
 public class GeneralTransaction implements Transaction {
 
-    private final long id;
     private List<Movement> movements = new ArrayList<>();
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Tag> tags = new ArrayList<>();
     private double totalAmount;
     private LocalDate date;
-
-    @JsonCreator
-    public GeneralTransaction(@JsonProperty("id") long id) {
-        this.id = id;
-    }
-
-    @Override
-    public long getId() {
-        return this.id;
-    }
 
     @Override
     public List<Movement> getMovements() {
@@ -65,7 +56,7 @@ public class GeneralTransaction implements Transaction {
     }
 
     private void addToTotal(Movement m) {
-        if (m.type() == MovementType.CREDIT) this.totalAmount += m.amount();
+        if (m.getType() == MovementType.CREDIT) this.totalAmount += m.amount();
         else this.totalAmount -= m.amount();
     }
 

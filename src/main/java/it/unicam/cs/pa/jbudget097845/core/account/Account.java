@@ -22,8 +22,6 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
         @JsonSubTypes.Type(value = GeneralLiabilitiesAccount.class, name = "general_liabilities_account")
 })
 public interface Account {
-    long getId();
-
     String getName();
 
     String getDescription();
@@ -33,6 +31,8 @@ public interface Account {
     double getBalance();
 
     void addMovement(Movement m);
+
+    AccountType getType();
 
     List<Movement> getMovements();
 

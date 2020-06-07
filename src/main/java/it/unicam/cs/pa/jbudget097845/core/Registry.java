@@ -37,7 +37,7 @@ public interface Registry {
 
     void addAccount(AccountType type, String name, String description, double openingBalance);
 
-    void addTag(String name, String description, TagType tag_type);
+    void addTag(String name, String description);
 
     void addScheduledTransaction(ScheduledTransaction scheduledTransaction);
 

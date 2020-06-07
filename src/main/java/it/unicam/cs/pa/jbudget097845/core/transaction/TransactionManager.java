@@ -12,8 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class TransactionManager {
 
-    private static TransactionManager class_instance = null;
-    private static AtomicLong transaction_ids = new AtomicLong(0);
+    private TransactionManager class_instance = null;
     private static HashMap<String, Transaction> defaultTransactions = new HashMap<>();
 
     private TransactionManager() {}
@@ -25,7 +24,7 @@ public class TransactionManager {
 
 
     public static Transaction newTransaction() {
-        Transaction t = new GeneralTransaction(transaction_ids.incrementAndGet());
+        Transaction t = new GeneralTransaction();
         return t;
     }
 

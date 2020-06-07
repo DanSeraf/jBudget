@@ -1,9 +1,6 @@
 package it.unicam.cs.pa.jbudget097845.core.movement;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
@@ -16,31 +13,30 @@ import java.util.List;
 @JsonTypeName("credit_movement")
 public class CreditMovement implements Movement {
 
-    private static final MovementType type = MovementType.CREDIT;
-    private long id;
+    private final MovementType type;
     private double amount;
     private Account account = null;
     private String description = "";
     private Transaction transaction;
     private LocalDate date;
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Tag> tags = new ArrayList<>();
 
-    public CreditMovement() {}
-
-    public CreditMovement(long id, double amount, Transaction t, LocalDate d) {
-        this.id = id;
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public CreditMovement(
+            @JsonProperty("amount") double amount,
+            @JsonProperty("transaction") Transaction t,
+            @JsonProperty("date") LocalDate d,
+            @JsonProperty("type") MovementType mt)
+    {
         this.amount = amount;
         this.transaction = t;
         this.date = d;
+        this.type = mt;
     }
 
     @Override
-    public long getId() {
-        return this.id;
-    }
-
-    @Override
-    public MovementType type() {
+    public MovementType getType() {
         return this.type;
     }
 

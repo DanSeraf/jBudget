@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class Breport implements BudgetReport {
+public class GeneralReport implements BudgetReport {
 
     private Budget budget;
     private List<Movement> movements;
     private List<Tag> tags;
     private Map<Tag, Double> reports;
 
-    public Breport(Budget b, List<Movement> m) {
+    public GeneralReport(Budget b, List<Movement> m) {
         this.budget = b;
-        this.tags = b.tags();
+        this.tags = b.getTags();
         this.movements = m;
         this.reports = report();
     }

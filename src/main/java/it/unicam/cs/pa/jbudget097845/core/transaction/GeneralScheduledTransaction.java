@@ -3,6 +3,8 @@ package it.unicam.cs.pa.jbudget097845.core.transaction;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class GeneralScheduledTransaction implements ScheduledTransaction {
 
@@ -34,6 +36,13 @@ public class GeneralScheduledTransaction implements ScheduledTransaction {
     @Override
     public List<Transaction> getTransactions() {
         return this.transactions;
+    }
+
+    @Override
+    public List<Transaction> getTransactions(Predicate<Transaction> p) {
+        return this.transactions.stream()
+                .filter(p)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Budget {
 
-    List<Tag> tags();
+    List<Tag> getTags();
 
     void set(Tag t, double expected);
 

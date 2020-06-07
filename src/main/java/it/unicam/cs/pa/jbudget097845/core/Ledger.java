@@ -1,6 +1,8 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.databind.annotation.JsonValueInstantiator;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
@@ -28,7 +30,7 @@ public class Ledger implements Registry, Serializable {
 
     public Ledger() {
         addAccount(AccountType.ASSETS, "Banca", "Banca Unicredit", 10000);
-        addTag("thnt", "nthnth", TagType.EXPENSE);
+        addTag("thnt", "nthnth");
     }
 
     @Override
@@ -58,6 +60,9 @@ public class Ledger implements Registry, Serializable {
                             mov_temp.add(m);
                             m.getTags().forEach(tag_temp::add);
                         }));
+
+        if (mov_temp.size() == 0)
+            throw new TransactionError("The transaction can't be generated since no movements are added to the accounts");
 
         mov_temp.forEach(transaction::addMovement);
         tag_temp.forEach(transaction::addTag);
@@ -97,8 +102,8 @@ public class Ledger implements Registry, Serializable {
     }
 
     @Override
-    public void addTag(String name, String description, TagType tag_type) {
-        Tag tag = new GeneralTag(name, description, tag_type);
+    public void addTag(String name, String description) {
+        Tag tag = new GeneralTag(name, description);
         tags.add(tag);
     }
 

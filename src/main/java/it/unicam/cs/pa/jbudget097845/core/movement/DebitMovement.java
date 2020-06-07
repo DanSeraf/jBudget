@@ -1,6 +1,9 @@
 package it.unicam.cs.pa.jbudget097845.core.movement;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
@@ -10,32 +13,33 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonTypeName("debit_movement")
 public class DebitMovement implements Movement {
 
-    private static final MovementType type = MovementType.DEBIT;
-    private final long id;
-    private double amount;
-    @JsonManagedReference
+    private final MovementType type;
+    private final double amount;
     private Account account = null;
     private String description = "";
-    private Transaction transaction;
-    private LocalDate date;
+    private final Transaction transaction;
+    private final LocalDate date;
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Tag> tags = new ArrayList<>();
 
-    public DebitMovement(long id, double amount, Transaction t, LocalDate d) {
-        this.id = id;
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public DebitMovement(
+            @JsonProperty("amount") double amount,
+            @JsonProperty("transaction") Transaction t,
+            @JsonProperty("date") LocalDate d,
+            @JsonProperty("type") MovementType mt)
+    {
         this.amount = amount;
         this.transaction = t;
         this.date = d;
+        this.type = mt;
     }
 
     @Override
-    public long getId() {
-        return this.id;
-    }
-
-    @Override
-    public MovementType type() {
+    public MovementType getType() {
         return this.type;
     }
 

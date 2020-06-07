@@ -11,7 +11,7 @@ import static spark.Spark.post;
 
 public class Endpoints {
 
-    public void newAccount() {
+    public static void newAccount() {
         post("/newaccount", ((request, response) -> {
             String name = request.queryParams("name");
             String description = request.queryParams("description");
@@ -30,7 +30,7 @@ public class Endpoints {
         }));
     }
 
-    public void getAccounts() {
+    public static void getAccounts() {
         get("/accounts", ((request, response) -> {
             Map<String, Map<String, String>> accounts = Controller.getAccounts();
             ObjectMapper mapper = new ObjectMapper();

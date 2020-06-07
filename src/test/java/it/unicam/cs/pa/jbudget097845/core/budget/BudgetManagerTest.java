@@ -37,7 +37,7 @@ public class BudgetManagerTest {
         l.addTransaction(t);
         l.addTransaction(t2);
 
-        BudgetManager bm = new Bmanager();
+        BudgetManager bm = new BudgetFactory();
         BudgetReport br = bm.generateReport(l, b);
         Map<Tag, Double> reports = br.report();
         assertEquals(780, reports.get(tags.get(0)));

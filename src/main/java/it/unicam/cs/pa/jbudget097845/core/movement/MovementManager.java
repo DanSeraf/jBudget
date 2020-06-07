@@ -14,8 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class MovementManager {
 
-    private static MovementManager class_instance = null;
-    private static AtomicLong ids = new AtomicLong(0);
+    private MovementManager class_instance = null;
 
     private MovementManager() {}
 
@@ -30,11 +29,11 @@ public class MovementManager {
         Movement new_movement;
         switch (type) {
             case CREDIT:
-                new_movement = new CreditMovement(ids.incrementAndGet(), amount, t, d);
+                new_movement = new CreditMovement(amount, t, d, type);
                 tags.forEach(new_movement::addTag);
                 return new_movement;
             case DEBIT:
-                new_movement = new DebitMovement(ids.incrementAndGet(), amount, t, d);
+                new_movement = new DebitMovement(amount, t, d, type);
                 tags.forEach(new_movement::addTag);
                 return new_movement;
             default: return null;

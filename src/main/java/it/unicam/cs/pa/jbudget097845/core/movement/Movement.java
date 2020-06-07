@@ -22,9 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
         @JsonSubTypes.Type(value = DebitMovement.class, name = "debit_movement")
 })
 public interface Movement {
-    long getId();
-
-    MovementType type();
+    MovementType getType();
 
     String getDescription();
 

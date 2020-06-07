@@ -22,8 +22,6 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
         @JsonSubTypes.Type(value = GeneralTransaction.class, name = "general_transaction")
 )
 public interface Transaction {
-    long getId();
-
     List<Movement> getMovements();
 
     void addMovement(Movement m);

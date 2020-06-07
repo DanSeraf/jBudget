@@ -11,7 +11,7 @@ public class GeneralBudget implements Budget {
     private HashMap<Tag, Double> budgets = new HashMap<>();
 
     @Override
-    public List<Tag> tags() {
+    public List<Tag> getTags() {
         return new ArrayList<>(this.budgets.keySet());
     }
 
