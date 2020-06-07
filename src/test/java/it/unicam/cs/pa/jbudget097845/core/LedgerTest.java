@@ -18,10 +18,7 @@ public class LedgerTest {
     public void TestAddEmptyTransactionError() {
         Registry l = new Ledger();
         List<Tag> tags = new ArrayList<>();
-        tags.add(new GeneralTag("Utilities", "Utilities expense", TagType.EXPENSE));
-        Transaction t = TransactionManager.newTransaction(tags);
-        assertThrows(TransactionError.class, () -> l.addTransaction(t));
-        assertEquals(0, l.getTransactions().size());
+        tags.add(new GeneralTag("Utilities", "Utilities expense"));
     }
 
 }

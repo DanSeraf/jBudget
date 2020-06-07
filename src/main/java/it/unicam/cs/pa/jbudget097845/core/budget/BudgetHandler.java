@@ -6,7 +6,10 @@ import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetFactory implements BudgetManager {
+public class BudgetHandler implements BudgetManager {
+
+    private List<GeneralReport> reports;
+
     @Override
     public BudgetReport generateReport(Registry r, Budget b) {
         List<Movement> movements = new ArrayList<>();

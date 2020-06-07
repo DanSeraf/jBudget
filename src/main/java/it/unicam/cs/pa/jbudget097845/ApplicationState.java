@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * This class is responsible of managing the application state.
- * It can save and load the application state in a json format using the Jackson library.
+ * It can save and load the application state in JSON format using the Jackson library.
  * It also provide the ObjectMapper, useful for writing and reading JSON.
  *
  * @author Daniele Serafini

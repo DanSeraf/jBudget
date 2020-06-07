@@ -2,7 +2,6 @@ package it.unicam.cs.pa.jbudget097845.core.movement;
 
 import it.unicam.cs.pa.jbudget097845.core.GeneralTag;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
-import it.unicam.cs.pa.jbudget097845.core.TagType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.TransactionManager;
 import org.junit.Test;
@@ -20,9 +19,9 @@ public class MovementTest {
     @DisplayName("Create a new credit movement")
     public void createCreditMovement() {
         List<Tag> tags = new ArrayList<>();
-        tags.add(new GeneralTag("Salary", "Salary income", TagType.INCOME));
+        tags.add(new GeneralTag("Salary", "Salary income"));
 
-        Transaction t = TransactionManager.newTransaction(tags);
+        Transaction t = TransactionManager.newTransaction();
         Movement m = MovementManager.newMovement(MovementType.CREDIT, 200, t, LocalDate.now(), tags);
         assertTrue(m instanceof CreditMovement);
     }
@@ -31,9 +30,9 @@ public class MovementTest {
     @DisplayName("Create a new debit movement")
     public void createDebitMovement() {
         List<Tag> tags = new ArrayList<>();
-        tags.add(new GeneralTag("utilities", "utilities expenses", TagType.EXPENSE));
+        tags.add(new GeneralTag("utilities", "utilities expenses"));
 
-        Transaction t = TransactionManager.newTransaction(tags);
+        Transaction t = TransactionManager.newTransaction();
         Movement m = MovementManager.newMovement(MovementType.DEBIT, 200, t, LocalDate.now(), tags);
         assertTrue(m instanceof DebitMovement);
     }

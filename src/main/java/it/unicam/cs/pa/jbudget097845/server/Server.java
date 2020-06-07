@@ -15,7 +15,6 @@ import static spark.Spark.port;
 public class Server {
 
     private Server class_instance = null;
-    private static Endpoints ep = new Endpoints();
 
     private Server () {
     }
@@ -35,8 +34,8 @@ public class Server {
     }
 
     public static void openEndpoints() {
-        ep.newAccount();
-        ep.getAccounts();
+        Endpoints.newAccount();
+        Endpoints.getAccounts();
     }
 
 }

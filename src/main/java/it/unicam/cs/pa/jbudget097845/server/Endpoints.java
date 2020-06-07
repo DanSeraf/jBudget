@@ -3,6 +3,7 @@ package it.unicam.cs.pa.jbudget097845.server;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.cs.pa.jbudget097845.core.Controller;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
+import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
 
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class Endpoints {
+
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void newAccount() {
         post("/newaccount", ((request, response) -> {
@@ -32,8 +35,12 @@ public class Endpoints {
 
     public static void getAccounts() {
         get("/accounts", ((request, response) -> {
-            Map<String, Map<String, String>> accounts = Controller.getAccounts();
-            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Map<String, String>> accounts;
+            try {
+                accounts = Controller.getAccounts();
+            } catch (AccountNotFound anf) {
+                return "NOACCOUNTS";
+            }
             return mapper.writeValueAsString(accounts);
         }));
     }

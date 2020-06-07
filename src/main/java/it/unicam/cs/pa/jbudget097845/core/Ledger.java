@@ -10,6 +10,7 @@ import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
+import it.unicam.cs.pa.jbudget097845.exc.AccountException;
 import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.exc.TransactionError;
 
@@ -28,13 +29,13 @@ public class Ledger implements Registry, Serializable {
     private List<Tag> tags = new ArrayList<>();
     private AccountFactory accountManager = new AccountFactory();
 
-    public Ledger() {
-        addAccount(AccountType.ASSETS, "Banca", "Banca Unicredit", 10000);
-        addTag("thnt", "nthnth");
-    }
+    public Ledger() {}
 
     @Override
-    public List<Account> getAccounts() {
+    public List<Account> getAccounts() throws AccountNotFound {
+        if (this.accounts.size() == 0) throw new AccountNotFound("No accounts added");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(this.accounts);
         return this.accounts;
     }
 
