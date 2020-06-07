@@ -1,30 +1,44 @@
 package it.unicam.cs.pa.jbudget097845.core.account;
 
+import com.fasterxml.jackson.annotation.*;
+import it.unicam.cs.pa.jbudget097845.core.movement.CreditMovement;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.exc.AccountBalanceError;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class GeneralAssetAccount implements Account {
 
-    private final static AccountType type = AccountType.LIABILITIES;
-    private final int id;
+    private final static AccountType type = AccountType.ASSETS;
+    private final long id;
     private double openingBalance;
     private double balance;
     private String name;
     private String description;
-    private List<Movement> movements;
+    private List<Movement> movements = new ArrayList<>();
     private boolean belowZero;
 
-    public GeneralAssetAccount(int id, double openingBalance, String name, String description, boolean belowZero) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public GeneralAssetAccount(
+            @JsonProperty("id") long id,
+            @JsonProperty("opening_balance") double openingBalance,
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("below_zero") boolean belowZero)
+    {
         this.id = id;
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
         this.belowZero = belowZero;
+    }
+
+    public boolean getBelowZero() {
+        return this.belowZero;
     }
 
     @Override
@@ -37,11 +51,12 @@ public class GeneralAssetAccount implements Account {
         } else if (m.type() == MovementType.CREDIT) {
             this.balance += m.amount();
         }
+        m.setAccount(this);
         this.movements.add(m);
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 

@@ -12,7 +12,7 @@ public class Bmanager implements BudgetManager {
     public BudgetReport generateReport(Registry r, Budget b) {
         List<Movement> movements = new ArrayList<>();
         r.getTransactions()
-                .forEach(t -> t.movements()
+                .forEach(t -> t.getMovements()
                         .forEach(movements::add));
 
         return new Breport(b, movements);

@@ -3,6 +3,7 @@ package it.unicam.cs.pa.jbudget097845.core.account;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * This class is responsible of determine which account should be created
@@ -10,9 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AccountFactory {
 
-    private static AtomicInteger ids = new AtomicInteger(0);
+    private static AtomicLong ids = new AtomicLong(0);
 
-    public Account newAccount(
+    public static Account newAccount(
             AccountType accountType, String name, String description,
             double openingBalance, boolean belowZero) throws AccountCreationError {
         switch (accountType) {
@@ -21,7 +22,7 @@ public class AccountFactory {
         }
     }
 
-    public Account newAccount(
+    public static Account newAccount(
             AccountType accountType, String name, String description,
             double openingBalance) throws AccountCreationError {
         switch (accountType) {

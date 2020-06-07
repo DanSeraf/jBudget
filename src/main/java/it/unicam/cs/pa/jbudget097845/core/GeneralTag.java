@@ -1,14 +1,22 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GeneralTag implements Tag {
 
     private static AtomicInteger ids = new AtomicInteger(0);
-    private final int id;
-    private final TagType type;
+    private int id;
+    private TagType type;
     private String name;
     private String description;
+
+    public GeneralTag() {
+
+    }
 
     public GeneralTag(String name, String description, TagType type) {
         this.id = ids.incrementAndGet();

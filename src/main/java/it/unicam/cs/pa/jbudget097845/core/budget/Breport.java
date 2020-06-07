@@ -34,7 +34,7 @@ public class Breport implements BudgetReport {
         for (Tag t: tags) {
             double[] tmp_amount = { 0 };
             movements.forEach((m) -> {
-                if (m.tags().contains(t)) {
+                if (m.getTags().contains(t)) {
                     tmp_amount[0] += m.amount();
                 }
             });
@@ -54,6 +54,6 @@ public class Breport implements BudgetReport {
     }
 
     private Predicate<Movement> getPredicate(Tag t) {
-        return m -> m.tags().contains(t);
+        return m -> m.getTags().contains(t);
     }
 }

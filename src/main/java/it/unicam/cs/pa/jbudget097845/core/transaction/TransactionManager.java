@@ -14,21 +14,18 @@ public class TransactionManager {
 
     private static TransactionManager class_instance = null;
     private static AtomicLong transaction_ids = new AtomicLong(0);
-    private HashMap<String, Transaction> defaultTransactions = new HashMap<>();
+    private static HashMap<String, Transaction> defaultTransactions = new HashMap<>();
 
     private TransactionManager() {}
 
     public TransactionManager TransactionManager() {
-        if (this.class_instance == null) {
-            this.class_instance = new TransactionManager();
-        }
+        if (this.class_instance == null) this.class_instance = new TransactionManager();
         return this.class_instance;
     }
 
 
-    public static Transaction newTransaction(List<Tag> tags) {
+    public static Transaction newTransaction() {
         Transaction t = new GeneralTransaction(transaction_ids.incrementAndGet());
-        tags.forEach(t::addTag);
         return t;
     }
 

@@ -1,5 +1,8 @@
 package it.unicam.cs.pa.jbudget097845.core.account;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.exc.AccountBalanceError;
@@ -11,15 +14,21 @@ import java.util.stream.Collectors;
 
 public class GeneralLiabilitiesAccount implements Account {
 
-    private final static AccountType type = AccountType.ASSETS;
-    private final int id;
+    private final static AccountType type = AccountType.LIABILITIES;
+    private final long id;
     private double openingBalance;
     private double balance;
     private String name;
     private String description;
     private List<Movement> movements = new ArrayList<>();
 
-    public GeneralLiabilitiesAccount(int id, double openingBalance, String name, String description) {
+    @JsonCreator
+    public GeneralLiabilitiesAccount(
+            @JsonProperty("id") long id,
+            @JsonProperty("opening_balance") double openingBalance,
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description)
+    {
         this.id = id;
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
@@ -37,11 +46,12 @@ public class GeneralLiabilitiesAccount implements Account {
                         m.amount(), this.balance));
             this.balance -= m.amount();
         }
+        m.setAccount(this);
         this.movements.add(m);
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 

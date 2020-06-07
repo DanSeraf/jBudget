@@ -1,21 +1,24 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
+import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.exc.TransactionError;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Ledger implements Registry {
+public class Ledger implements Registry, Serializable {
 
     private List<Account> accounts = new ArrayList<>();
     private List<Transaction> transactions = new ArrayList<>();
@@ -25,6 +28,7 @@ public class Ledger implements Registry {
 
     public Ledger() {
         addAccount(AccountType.ASSETS, "Banca", "Banca Unicredit", 10000);
+        addTag("thnt", "nthnth", TagType.EXPENSE);
     }
 
     @Override
@@ -45,8 +49,18 @@ public class Ledger implements Registry {
 
     @Override
     public void addTransaction(Transaction transaction) throws TransactionError {
-        if (transaction.movements().size() == 0) throw new TransactionError(
-                "Can't add a new transaction without movements");
+        List<Movement> mov_temp = new ArrayList<>();
+        List<Tag> tag_temp = new ArrayList<>();
+
+        this.accounts.forEach(
+                account -> account.getMovements(m -> m.getTransaction() == transaction)
+                        .forEach(m -> {
+                            mov_temp.add(m);
+                            m.getTags().forEach(tag_temp::add);
+                        }));
+
+        mov_temp.forEach(transaction::addMovement);
+        tag_temp.forEach(transaction::addTag);
 
         transactions.add(transaction);
     }

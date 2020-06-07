@@ -1,5 +1,6 @@
 package it.unicam.cs.pa.jbudget097845.core.movement;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
@@ -14,6 +15,7 @@ public class DebitMovement implements Movement {
     private static final MovementType type = MovementType.DEBIT;
     private final long id;
     private double amount;
+    @JsonManagedReference
     private Account account = null;
     private String description = "";
     private Transaction transaction;
@@ -74,7 +76,7 @@ public class DebitMovement implements Movement {
     }
 
     @Override
-    public List<Tag> tags() {
+    public List<Tag> getTags() {
         return this.tags;
     }
 

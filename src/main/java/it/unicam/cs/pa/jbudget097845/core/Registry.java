@@ -1,5 +1,9 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;
@@ -9,6 +13,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Predicate;
 
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
+
+@JsonTypeInfo(use = NAME, include = PROPERTY)
+@JsonSubTypes(
+        @JsonSubTypes.Type(value=Ledger.class, name="ledger")
+)
 public interface Registry {
     List<Account> getAccounts();
 
