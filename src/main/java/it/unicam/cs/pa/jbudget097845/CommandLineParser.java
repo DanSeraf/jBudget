@@ -7,12 +7,9 @@ import org.apache.commons.cli.*;
  */
 public class CommandLineParser {
 
-    private static CommandLineParser class_instance = null;
     private static final DefaultParser parser = new DefaultParser();
     private static final HelpFormatter formatter = new HelpFormatter();
     private static final Options options = new Options();
-
-    private CommandLineParser() {}
 
     public static void init() {
         Option host = Option.builder("h").required(false)
@@ -37,11 +34,6 @@ public class CommandLineParser {
         options.addOption(host)
                 .addOption(port)
                 .addOption(config);
-    }
-
-    public CommandLineParser CommandLineParser() {
-        if (this.class_instance == null) this.class_instance = new CommandLineParser();
-        return this.class_instance;
     }
 
     public static CommandLine getCommands(String[] args) {

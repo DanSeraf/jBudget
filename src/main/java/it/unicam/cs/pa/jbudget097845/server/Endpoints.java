@@ -23,6 +23,7 @@ import static spark.Spark.post;
 public class Endpoints {
 
     private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ApplicationController controller = ApplicationController.instance();
 
     /**
      * Manage the creation of a new account
@@ -35,7 +36,7 @@ public class Endpoints {
             String openingBalance = request.queryParams("opening_balance");
 
             try {
-                ApplicationController.generateAccount(name, description, type, openingBalance);
+                controller.generateAccount(name, description, type, openingBalance);
                 response.status(200);
             } catch (AccountCreationError | AccountTypeException | NumberFormatException e){
                 response.status(400);
@@ -53,7 +54,7 @@ public class Endpoints {
         get("/accounts", ((request, response) -> {
             Map<String, Map<String, String>> accounts;
             try {
-                accounts = ApplicationController.getAccounts();
+                accounts = controller.getAccounts();
             } catch (AccountNotFound anf) {
                 return "NOACCOUNTS";
             }
@@ -76,7 +77,7 @@ public class Endpoints {
     public static void addTransaction() {
         post("/addtransaction", ((request, response) -> {
             String movements_array = request.body();
-            ApplicationController.generateTransaction(new JSONArray(movements_array));
+            controller.generateTransaction(new JSONArray(movements_array));
             return response;
         }));
     }
@@ -90,7 +91,7 @@ public class Endpoints {
         post("/addtag", ((request, response) -> {
             String name = request.queryParams("name");
             String description = request.queryParams("description");
-            ApplicationController.addTag(name, description);
+            controller.addTag(name, description);
             return response;
         }));
     }

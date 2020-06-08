@@ -29,7 +29,9 @@ public class Ledger implements Registry, Serializable {
     private List<ScheduledTransaction> scheduledTransactions = new ArrayList<>();
     private List<Tag> tags = new ArrayList<>();
     @JsonIgnore
-    private AccountFactory accountManager = new AccountFactory();
+    private final AccountFactory accountManager = new AccountFactory();
+    @JsonIgnore
+    private final ApplicationState state = ApplicationState.instance();
 
     public Ledger() {}
 
@@ -54,7 +56,7 @@ public class Ledger implements Registry, Serializable {
     public void addTransaction(Transaction transaction) throws TransactionError {
         if (this.transactions.contains(transaction)) return;
         transactions.add(transaction);
-        ApplicationState.save(this);
+        state.save(this);
     }
 
     @Override
@@ -98,14 +100,14 @@ public class Ledger implements Registry, Serializable {
     throws AccountCreationError {
         Account new_account = accountManager.newAccount(type, name, description, openingBalance, this);
         this.accounts.add(new_account);
-        ApplicationState.save(this);
+        state.save(this);
     }
 
     @Override
     public void addTag(String name, String description) {
         Tag tag = new GeneralTag(name, description);
         tags.add(tag);
-        ApplicationState.save(this);
+        state.save(this);
     }
 
     @Override

@@ -13,15 +13,6 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * This class is responsible of managing the application state.
- * It can save and load the application state in JSON format using the Jackson library.
- * It also provide the ObjectMapper, useful for writing and reading JSON.
- *
- * @author Daniele Serafini
- *
- */
-
-/**
  * This class is responsible of saving the application data.
  *
  * At the moment since all the application data reside inside the Registry it provides
@@ -34,24 +25,24 @@ import java.io.IOException;
  */
 public class ApplicationState {
 
-    private static ApplicationState class_instance = null;
-    private static final ObjectMapper mapper = new ObjectMapper();
-    private static final File DEFAULT_DIR_PATH = new File("./data");
-    private static final File DEFAULT_REGISTRY_PATH = new File("./data/registry.json");
-    private static final File DEFAULT_REPORT_PATH = new File("./data/report.json");
-    private static File registryPath;
-    private static File reportPath;
+    private static ApplicationState class_instance = new ApplicationState();
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final File DEFAULT_DIR_PATH = new File("./data");
+    private final File DEFAULT_REGISTRY_PATH = new File("./data/registry.json");
+    private final File DEFAULT_REPORT_PATH = new File("./data/report.json");
+    private File registryPath;
+    private File reportPath;
 
     private ApplicationState() {
     }
 
-    public static ApplicationState ApplicationState() {
+    public static ApplicationState instance() {
         if (class_instance == null)
             class_instance = new ApplicationState();
         return class_instance;
     }
 
-    public static void init(File registry_path, File report_path) throws DirectoryError {
+    public void init(File registry_path, File report_path) throws DirectoryError {
         if (!registry_path.getParentFile().mkdirs() || report_path.getParentFile().mkdirs())
             throw new DirectoryError("Error creating directory to store application data");
 
@@ -63,7 +54,7 @@ public class ApplicationState {
         mapper.registerModule(new JavaTimeModule());
     }
 
-    public static void init() throws DirectoryError {
+    public void init() throws DirectoryError {
         if (!DEFAULT_DIR_PATH.exists())
             if (!DEFAULT_DIR_PATH.mkdir())
                 throw new DirectoryError("Error creating directory to store application data");
@@ -76,7 +67,7 @@ public class ApplicationState {
         mapper.registerModule(new JavaTimeModule());
     }
 
-    public static void save(Object o) throws UnsupportedOperationException {
+    public void save(Object o) throws UnsupportedOperationException {
         // to avoid problems with tests
         if (registryPath == null) return;
 
@@ -89,7 +80,7 @@ public class ApplicationState {
         }
     }
 
-    public static Object load(StateType type) throws UnsupportedOperationException {
+    public Object load(StateType type) throws UnsupportedOperationException {
         try {
             switch (type) {
                 case REGISTRY:

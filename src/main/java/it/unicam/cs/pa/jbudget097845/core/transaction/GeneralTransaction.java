@@ -2,6 +2,7 @@ package it.unicam.cs.pa.jbudget097845.core.transaction;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
+import it.unicam.cs.pa.jbudget097845.core.account.GeneralAssetAccount;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 
@@ -21,6 +22,10 @@ public class GeneralTransaction implements Transaction {
     private List<Tag> tags = new ArrayList<>();
     private double totalAmount;
     private LocalDate date;
+
+    public GeneralTransaction(LocalDate d) {
+        this.date = d;
+    }
 
     @Override
     public List<Movement> getMovements() {

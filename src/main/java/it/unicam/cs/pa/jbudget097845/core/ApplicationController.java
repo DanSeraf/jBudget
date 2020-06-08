@@ -29,61 +29,61 @@ import java.util.*;
 
 public class ApplicationController {
 
-    private ApplicationController class_instance = null;
-    private static Registry registry;
-    private static BudgetHandler budgetHandler;
-    private static Map<String, AccountType> accountTypes = new HashMap<>();
-    private static Map<String, MovementType> movementTypes = new HashMap<>();
+    private static ApplicationController class_instance = null;
+    private Registry registry;
+    private BudgetHandler budgetHandler;
+    private final MovementManager movementManager = MovementManager.instance();
+    private final TransactionManager transactionManager = TransactionManager.instance();
+    private final Map<String, AccountType> accountTypes;
+    private final Map<String, MovementType> movementTypes;
 
     private ApplicationController() {
+        accountTypes = initAccountTypes();
+        movementTypes = initMovementType();
     }
 
-    private static void initAccountTypes() {
-        AccountType[] account_types = AccountType.values();
+    private Map<String, AccountType> initAccountTypes() {
+        AccountType[] types = AccountType.values();
+        Map<String, AccountType> account_types = new HashMap<>();
 
-        for (AccountType at: account_types) {
-            accountTypes.put(at.toString(), at);
+        for (AccountType at: types) {
+            account_types.put(at.toString(), at);
         }
+        return account_types;
     }
 
-    private static void initMovementType() {
-        MovementType[] movement_type = MovementType.values();
+    private Map<String, MovementType> initMovementType() {
+        MovementType[] types = MovementType.values();
+        Map<String, MovementType> movement_types = new HashMap<>();
 
-        for (MovementType mt: movement_type) {
-            movementTypes.put(mt.toString(), mt);
+
+        for (MovementType mt: types) {
+            movement_types.put(mt.toString(), mt);
         }
+        return movement_types;
     }
 
-    public ApplicationController Controller() {
-        if (this.class_instance == null) {
-            this.class_instance = new ApplicationController();
+    public static ApplicationController instance() {
+        if (class_instance == null) {
+            class_instance = new ApplicationController();
         }
 
-        return this.class_instance;
+        return class_instance;
     }
 
-    public static void init(Registry r, BudgetHandler bh) {
+    public void init(Registry r, BudgetHandler bh) {
         registry = r;
         budgetHandler = bh;
-
-        initAccountTypes();
-        initMovementType();
     }
 
-    public static void init(Registry r) {
+    public void init(Registry r) {
         registry = r;
         budgetHandler = new BudgetHandler();
-
-        initAccountTypes();
-        initMovementType();
     }
 
-    public static void init() {
+    public void init() {
         registry = new Ledger();
         budgetHandler = new BudgetHandler();
-
-        initAccountTypes();
-        initMovementType();
     }
 
     /**
@@ -100,7 +100,7 @@ public class ApplicationController {
      * @throws AccountTypeException in case the type of the account is wrong
      */
     //TODO throw exception if account name already exists
-    public static void generateAccount(String name, String description, String account_type, String openingBalance)
+    public void generateAccount(String name, String description, String account_type, String openingBalance)
     throws AccountCreationError, AccountTypeException
     {
         double op_balance = Double.parseDouble(openingBalance);
@@ -117,7 +117,7 @@ public class ApplicationController {
      * @return the formatted message containing all the accounts
      * @throws AccountNotFound
      */
-    public static Map<String, Map<String, String>> getAccounts() throws AccountNotFound {
+    public Map<String, Map<String, String>> getAccounts() throws AccountNotFound {
         Map<String, Map<String, String>> accounts = new HashMap<>();
         for (Account acc: registry.getAccounts()) {
             accounts.put(acc.getName(), new HashMap<String, String>() {{
@@ -130,8 +130,8 @@ public class ApplicationController {
         return accounts;
     }
 
-    public static void generateTransaction(JSONArray movements) {
-        Transaction t = TransactionManager.newTransaction();
+    public void generateTransaction(JSONArray movements) {
+        Transaction t = transactionManager.newTransaction(LocalDate.now());
 
         for (int i = 0; i < movements.length(); i++) {
             List<Tag> tags = new ArrayList<>();
@@ -143,19 +143,19 @@ public class ApplicationController {
                  String tag_name = tags_array.getString(i);
                  tags.add(registry.getTag(tag -> Objects.equals(tag.getName(), tag_name)));
             }
-            Movement new_m = MovementManager.newMovement(
-                    movement_type, amount, t, LocalDate.now(),tags);
+            Movement new_m = movementManager.newMovement(
+                    movement_type, amount, t, tags);
             Account account = registry.getAccount(a -> a.getName().equals(account_name));
             account.addMovement(new_m);
         }
         registry.addTransaction(t);
     }
 
-    public static void generateBudget() {
+    public void generateBudget() {
 
     }
 
-    public static void addTag(String name, String description) {
+    public void addTag(String name, String description) {
         registry.addTag(name, description);
     }
 

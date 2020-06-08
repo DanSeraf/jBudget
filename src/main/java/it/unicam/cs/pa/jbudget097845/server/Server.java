@@ -14,18 +14,6 @@ import static spark.Spark.port;
  */
 public class Server {
 
-    private Server class_instance = null;
-
-    private Server () {
-    }
-
-    private Server Server() {
-        if (this.class_instance == null) {
-            this.class_instance = new Server();
-        }
-        return this.class_instance;
-    }
-
     /**
      * Run the server.
      *

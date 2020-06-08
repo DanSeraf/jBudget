@@ -35,12 +35,11 @@ public class DebitMovement implements Movement {
     public DebitMovement(
             @JsonProperty("amount") double amount,
             @JsonProperty("transaction") Transaction t,
-            @JsonProperty("date") LocalDate d,
             @JsonProperty("type") MovementType mt)
     {
         this.amount = amount;
         this.transaction = t;
-        this.date = d;
+        this.date = t.getDate();
         this.type = mt;
     }
 

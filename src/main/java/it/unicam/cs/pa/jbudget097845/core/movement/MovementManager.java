@@ -14,26 +14,26 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class MovementManager {
 
-    private MovementManager class_instance = null;
+    private static MovementManager class_instance = null;
 
     private MovementManager() {}
 
-    public MovementManager MovementManager() {
-        if (this.class_instance == null) {
-            this.class_instance = new MovementManager();
+    public static MovementManager instance() {
+        if (class_instance == null) {
+            class_instance = new MovementManager();
         }
-        return this.class_instance;
+        return class_instance;
     }
 
-    public static Movement newMovement(MovementType type, double amount, Transaction t, LocalDate d, List<Tag> tags) {
+    public Movement newMovement(MovementType type, double amount, Transaction t, List<Tag> tags) {
         Movement new_movement;
         switch (type) {
             case CREDIT:
-                new_movement = new CreditMovement(amount, t, d, type);
+                new_movement = new CreditMovement(amount, t, type);
                 tags.forEach(new_movement::addTag);
                 return new_movement;
             case DEBIT:
-                new_movement = new DebitMovement(amount, t, d, type);
+                new_movement = new DebitMovement(amount, t, type);
                 tags.forEach(new_movement::addTag);
                 return new_movement;
             default: return null;

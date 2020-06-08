@@ -13,12 +13,4 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LedgerTest {
 
-    @Test
-    @DisplayName("Error on adding a new empty transaction to the registry")
-    public void TestAddEmptyTransactionError() {
-        Registry l = new Ledger();
-        List<Tag> tags = new ArrayList<>();
-        tags.add(new GeneralTag("Utilities", "Utilities expense"));
-    }
-
 }

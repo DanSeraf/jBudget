@@ -12,9 +12,10 @@ public class Main {
         String host = cmd.getOptionValue("host") != null ? cmd.getOptionValue("host") : "0.0.0.0";
         int port = cmd.getOptionValue("port") != null ? Integer.parseInt(cmd.getOptionValue("port")) : 22333;
 
-        ApplicationState.init();
-        Registry r = (Registry) ApplicationState.load(StateType.REGISTRY);
-        ApplicationController.init(r);
+        ApplicationController controller = ApplicationController.instance();
+        ApplicationState state = ApplicationState.instance();
+        Registry r = (Registry) state.load(StateType.REGISTRY);
+        controller.init(r);
         Server.run(host, port);
     }
 }

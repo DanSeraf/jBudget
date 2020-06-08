@@ -1,33 +1,23 @@
 package it.unicam.cs.pa.jbudget097845.core.transaction;
 
-import it.unicam.cs.pa.jbudget097845.core.Tag;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import java.time.LocalDate;
 
 /**
  * This class is responsible manage the creation of new transactions
  */
 public class TransactionManager {
 
-    private TransactionManager class_instance = null;
-    private static HashMap<String, Transaction> defaultTransactions = new HashMap<>();
+    private static TransactionManager class_instance = null;
 
     private TransactionManager() {}
 
-    public TransactionManager TransactionManager() {
-        if (this.class_instance == null) this.class_instance = new TransactionManager();
-        return this.class_instance;
+    public static TransactionManager instance() {
+        if (class_instance == null) class_instance = new TransactionManager();
+        return class_instance;
     }
 
-
-    public static Transaction newTransaction() {
-        Transaction t = new GeneralTransaction();
+    public Transaction newTransaction(LocalDate d) {
+        Transaction t = new GeneralTransaction(d);
         return t;
-    }
-
-    public void saveTransaction(Transaction t, String name) {
-        this.defaultTransactions.put(name, t);
     }
 }
