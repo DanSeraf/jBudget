@@ -1,8 +1,10 @@
 package it.unicam.cs.pa.jbudget097845.core.transaction;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
-import it.unicam.cs.pa.jbudget097845.core.account.GeneralAssetAccount;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 
@@ -15,6 +17,7 @@ import java.util.List;
  *
  * @see Transaction
  */
+@JsonTypeName("credit_movement")
 public class GeneralTransaction implements Transaction {
 
     private List<Movement> movements = new ArrayList<>();
@@ -23,7 +26,8 @@ public class GeneralTransaction implements Transaction {
     private double totalAmount;
     private LocalDate date;
 
-    public GeneralTransaction(LocalDate d) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public GeneralTransaction(@JsonProperty("date") LocalDate d) {
         this.date = d;
     }
 

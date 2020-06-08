@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jbudget097845.core.account;
 
-import it.unicam.cs.pa.jbudget097845.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.core.Ledger;
 import it.unicam.cs.pa.jbudget097845.core.Registry;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
@@ -9,13 +8,10 @@ import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.TransactionManager;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 

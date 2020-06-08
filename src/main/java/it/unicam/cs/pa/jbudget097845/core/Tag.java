@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.*;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
+/**
+ * Interface implemented by the classes
+ */
 @JsonTypeInfo(use = NAME, include = PROPERTY)
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,
         scope= Tag.class)

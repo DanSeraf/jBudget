@@ -24,8 +24,8 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,
         scope= Account.class)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = GeneralAssetAccount.class, name = "general_asset_account"),
-        @JsonSubTypes.Type(value = GeneralLiabilitiesAccount.class, name = "general_liabilities_account")
+        @JsonSubTypes.Type(value = AssetAccount.class, name = "general_asset_account"),
+        @JsonSubTypes.Type(value = LiabilitiesAccount.class, name = "general_liabilities_account")
 })
 public interface Account {
 

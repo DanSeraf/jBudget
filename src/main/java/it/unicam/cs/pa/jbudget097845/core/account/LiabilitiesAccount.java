@@ -12,16 +12,15 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * This class is responsible of managing an account of type ASSET.
+ * This class is responsible of managing an account of type LIABILITIES.
  * It provide the methods to add a new movement and should interact with
  * the Registry in order to register the transaction
- *
  * @see AccountType
  * @see Registry
  *
  */
-@JsonTypeName("general_asset_account")
-public class GeneralAssetAccount implements Account {
+@JsonTypeName("general_liabilites_account")
+public class LiabilitiesAccount implements Account {
 
     private final AccountType type;
     @JsonIdentityReference(alwaysAsId = true)
@@ -32,44 +31,31 @@ public class GeneralAssetAccount implements Account {
     private String description;
     @JsonIdentityReference(alwaysAsId = true)
     private List<Movement> movements = new ArrayList<>();
-    private boolean belowZero;
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public GeneralAssetAccount(
+    @JsonCreator
+    public LiabilitiesAccount(
             @JsonProperty("opening_balance") double openingBalance,
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
             @JsonProperty("account_type") AccountType type,
-            @JsonProperty("below_zero") boolean belowZero,
             @JsonProperty("registry") Registry registry)
     {
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
-        this.belowZero = belowZero;
         this.type = type;
         this.registry = registry;
     }
 
-    public boolean getBelowZero() {
-        return this.belowZero;
-    }
-
-    /**
-     * Action performed to the balance when the movement is a debit
-     *
-     * @param m the debit movement
-     * @throws AccountBalanceError
-     */
-    private void addDebit(Movement m) throws AccountBalanceError {
-        if (this.balance < m.amount() && !belowZero)
-            throw new AccountBalanceError(String.format(
-                    "Trying to remove amount '%.2f' on account with balance '%.2f'", m.amount(), this.balance));
-        this.balance -= m.amount();
-    }
-
-    private void addCredit(Movement m) {
+    private void addDebit(Movement m) {
         this.balance += m.amount();
+    }
+
+    private void addCredit(Movement m) throws AccountBalanceError {
+        if (this.balance < m.amount())
+            throw new AccountBalanceError(String.format(
+                    "Trying to remove amount '%.2f' on a limited account with balance '%.2f'",
+                    m.amount(), this.balance));
     }
 
     @Override
@@ -79,23 +65,31 @@ public class GeneralAssetAccount implements Account {
         } else if (m.getType() == MovementType.CREDIT) {
             addCredit(m);
         }
-
-        registry.addTransaction(m.getTransaction());
         m.setAccount(this);
         m.getTransaction().addMovement(m);
         this.movements.add(m);
+        registry.addTransaction(m.getTransaction());
     }
 
+    /**
+     * @return the name of the account
+     */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /**
+     * @return the description of the account
+     */
     @Override
     public String getDescription() {
         return this.description;
     }
 
+    /**
+     * @return the opening balance of the account
+     */
     @Override
     public double getOpeningBalance() {
         return this.openingBalance;
@@ -118,22 +112,15 @@ public class GeneralAssetAccount implements Account {
         return this.type;
     }
 
-    /**
-     * @return the movements associated to the account
-     */
     @Override
     public List<Movement> getMovements() {
         return this.movements;
     }
 
-    /**
-     * @param predicate predicate to filter movements
-     * @return the filtered movements associated to the account
-     */
     @Override
     public List<Movement> getMovements(Predicate<Movement> predicate) {
         return this.movements.stream()
-                .filter(predicate)
-                .collect(Collectors.toList());
+                    .filter(predicate)
+                    .collect(Collectors.toList());
     }
 }

@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.unicam.cs.pa.jbudget097845.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
@@ -36,8 +35,7 @@ public class Ledger implements Registry, Serializable {
     public Ledger() {}
 
     @Override
-    public List<Account> getAccounts() throws AccountNotFound {
-        if (this.accounts.size() == 0) throw new AccountNotFound("No accounts added");
+    public List<Account> getAccounts() {
         return this.accounts;
     }
 

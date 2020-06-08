@@ -67,10 +67,12 @@ public class Endpoints {
      * This will parse the request body in order to collect various movements.
      *
      * The body should contains the following parameters:
-     * "account_name":"the name of the account"
-     * "movement_type":"credit/debit"
-     * "amount":"movement amount"
-     * "tags": [list of tags]
+     * <p><ul>
+     * <li>"account_name":"the name of the account"
+     * <li>"movement_type":"credit/debit"
+     * <li>"amount":"movement amount"
+     * <li>"tags": [list of tags]
+     * </ul></p>
      *
      * Request Example: [{"parameters"}, {"parameters"}, ...]
      */

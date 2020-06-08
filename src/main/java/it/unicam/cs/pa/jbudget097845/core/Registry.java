@@ -22,7 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
  * be responsible of saving the data with the provided ApplicationState class.
  *
  * @see ScheduledTransaction
- * @see it.unicam.cs.pa.jbudget097845.ApplicationState
+ * @see ApplicationState
  *
  */
 @JsonTypeInfo(use = NAME, include = PROPERTY)

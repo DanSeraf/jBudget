@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+/**
+ * General Tag implementation
+ */
 @JsonTypeName("general_tag")
 public class GeneralTag implements Tag {
 

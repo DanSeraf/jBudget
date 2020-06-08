@@ -1,11 +1,11 @@
-package it.unicam.cs.pa.jbudget097845;
+package it.unicam.cs.pa.jbudget097845.core;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import it.unicam.cs.pa.jbudget097845.core.Registry;
+import it.unicam.cs.pa.jbudget097845.StateType;
 import it.unicam.cs.pa.jbudget097845.core.budget.BudgetReport;
 import it.unicam.cs.pa.jbudget097845.exc.DirectoryError;
 
@@ -76,6 +76,7 @@ public class ApplicationState {
             else if (o instanceof BudgetReport) mapper.writeValue(reportPath, o);
             else throw new UnsupportedOperationException("The storing of the object provided is not implemented yet");
         } catch (IOException e) {
+            e.printStackTrace();
             System.err.println("Error while storing application data");
         }
     }

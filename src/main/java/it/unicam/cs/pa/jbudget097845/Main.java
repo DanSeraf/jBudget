@@ -4,6 +4,8 @@ import it.unicam.cs.pa.jbudget097845.core.*;
 import it.unicam.cs.pa.jbudget097845.server.Server;
 import org.apache.commons.cli.CommandLine;
 
+import java.io.File;
+
 public class Main {
     public static void main(String[] args) {
         CommandLineParser.init();
@@ -15,8 +17,14 @@ public class Main {
         ApplicationController controller = ApplicationController.instance();
         ApplicationState state = ApplicationState.instance();
         state.init();
-        Registry r = (Registry) state.load(StateType.REGISTRY);
-        controller.init(r);
+
+        File registry_file = new File("./data/registry.json");
+        Registry r;
+        if (registry_file.exists()) {
+            r = (Registry) state.load(StateType.REGISTRY);
+            controller.init(r);
+        } else { controller.init(); }
+
         Server.run(host, port);
     }
 }
