@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * This class is responsible of the management about new transactions
+ * This class is responsible manage the creation of new transactions
  */
-
 public class TransactionManager {
 
     private TransactionManager class_instance = null;

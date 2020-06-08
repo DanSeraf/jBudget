@@ -21,6 +21,17 @@ import java.io.IOException;
  *
  */
 
+/**
+ * This class is responsible of saving the application data.
+ *
+ * At the moment since all the application data reside inside the Registry it provides
+ * a serialization into a JSON.
+ *
+ * The structure of the JSON have reference to all the application data and each class
+ * serialized has the defined annotation to let the Jackson library understand how a class
+ * should be serialized.
+ *
+ */
 public class ApplicationState {
 
     private static ApplicationState class_instance = null;
@@ -66,6 +77,9 @@ public class ApplicationState {
     }
 
     public static void save(Object o) throws UnsupportedOperationException {
+        // to avoid problems with tests
+        if (registryPath == null) return;
+
         try {
             if (o instanceof Registry) mapper.writeValue(registryPath, o);
             else if (o instanceof BudgetReport) mapper.writeValue(reportPath, o);

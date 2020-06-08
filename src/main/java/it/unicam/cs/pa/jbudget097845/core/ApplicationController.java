@@ -1,11 +1,8 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
-import it.unicam.cs.pa.jbudget097845.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.core.budget.BudgetHandler;
-import it.unicam.cs.pa.jbudget097845.core.budget.BudgetReport;
-import it.unicam.cs.pa.jbudget097845.core.budget.GeneralReport;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementManager;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
@@ -15,7 +12,6 @@ import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.exc.AccountTypeException;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -23,18 +19,23 @@ import java.util.*;
 /**
  * This class is responsible of managing the communication between the API server
  * and the model (in this case the Ledger).
- * It will parse the message field
+ * It will parse the messages from the API Endpoint to communicate with the Registry.
+ * In case of a message failure the appropriate exception will be trown.
+ *
+ * @see it.unicam.cs.pa.jbudget097845.server.Endpoints
+ * @see Registry
+ *
  */
 
-public class Controller {
+public class ApplicationController {
 
-    private Controller class_instance = null;
+    private ApplicationController class_instance = null;
     private static Registry registry;
     private static BudgetHandler budgetHandler;
     private static Map<String, AccountType> accountTypes = new HashMap<>();
     private static Map<String, MovementType> movementTypes = new HashMap<>();
 
-    private Controller() {
+    private ApplicationController() {
     }
 
     private static void initAccountTypes() {
@@ -53,9 +54,9 @@ public class Controller {
         }
     }
 
-    public Controller Controller() {
+    public ApplicationController Controller() {
         if (this.class_instance == null) {
-            this.class_instance = new Controller();
+            this.class_instance = new ApplicationController();
         }
 
         return this.class_instance;
@@ -85,6 +86,19 @@ public class Controller {
         initMovementType();
     }
 
+    /**
+     * It will try to generate a new account parsing the input from the API Endpoint "/newaccount".
+     *
+     * @see it.unicam.cs.pa.jbudget097845.server.Endpoints
+     * @see AccountType
+     *
+     * @param name the name of the account
+     * @param description the description of the account
+     * @param account_type the AccountType
+     * @param openingBalance the opening balance of the account
+     * @throws AccountCreationError in case of creation error
+     * @throws AccountTypeException in case the type of the account is wrong
+     */
     //TODO throw exception if account name already exists
     public static void generateAccount(String name, String description, String account_type, String openingBalance)
     throws AccountCreationError, AccountTypeException
@@ -95,6 +109,14 @@ public class Controller {
         registry.addAccount(at, name, description, op_balance);
     }
 
+    /**
+     * It gets all the account from the Registry and
+     *
+     * @see Registry
+     *
+     * @return the formatted message containing all the accounts
+     * @throws AccountNotFound
+     */
     public static Map<String, Map<String, String>> getAccounts() throws AccountNotFound {
         Map<String, Map<String, String>> accounts = new HashMap<>();
         for (Account acc: registry.getAccounts()) {
@@ -127,6 +149,10 @@ public class Controller {
             account.addMovement(new_m);
         }
         registry.addTransaction(t);
+    }
+
+    public static void generateBudget() {
+
     }
 
     public static void addTag(String name, String description) {

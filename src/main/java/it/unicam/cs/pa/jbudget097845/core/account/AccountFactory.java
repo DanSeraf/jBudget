@@ -7,9 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * This class is responsible of determine which account should be created
+ *
+ * This class is responsible of determine (from the input) which account should be created
+ *
  */
-
 public class AccountFactory {
 
     public static Account newAccount(

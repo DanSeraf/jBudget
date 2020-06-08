@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class that store the expected values for each tag
+ *
+ * @see Budget
+ */
 public class GeneralBudget implements Budget {
 
     private HashMap<Tag, Double> budgets = new HashMap<>();

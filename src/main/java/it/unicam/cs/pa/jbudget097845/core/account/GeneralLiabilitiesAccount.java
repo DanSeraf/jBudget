@@ -11,6 +11,14 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * This class is responsible of managing an account of type LIABILITIES.
+ * It provide the methods to add a new movement and should interact with
+ * the Registry in order to register the transaction
+ * @see AccountType
+ * @see Registry
+ *
+ */
 @JsonTypeName("general_liabilites_account")
 public class GeneralLiabilitiesAccount implements Account {
 
@@ -39,41 +47,66 @@ public class GeneralLiabilitiesAccount implements Account {
         this.registry = registry;
     }
 
+    private void addDebit(Movement m) {
+        this.balance += m.amount();
+    }
+
+    private void addCredit(Movement m) throws AccountBalanceError {
+        if (this.balance < m.amount())
+            throw new AccountBalanceError(String.format(
+                    "Trying to remove amount '%.2f' on a limited account with balance '%.2f'",
+                    m.amount(), this.balance));
+    }
+
     @Override
     public void addMovement(Movement m) throws AccountBalanceError {
         if (m.getType() == MovementType.DEBIT) {
-            this.balance += m.amount();
+            addDebit(m);
         } else if (m.getType() == MovementType.CREDIT) {
-            if (this.balance < m.amount())
-                throw new AccountBalanceError(String.format(
-                        "Trying to remove amount '%.2f' on a limited account with balance '%.2f'",
-                        m.amount(), this.balance));
-            this.balance -= m.amount();
+            addCredit(m);
         }
+        registry.addTransaction(m.getTransaction());
         m.setAccount(this);
+        m.getTransaction().addMovement(m);
         this.movements.add(m);
     }
 
+    /**
+     * @return the name of the account
+     */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /**
+     * @return the description of the account
+     */
     @Override
     public String getDescription() {
         return this.description;
     }
 
+    /**
+     * @return the opening balance of the account
+     */
     @Override
     public double getOpeningBalance() {
         return this.openingBalance;
     }
 
+    /**
+     * @return the current balance of the account
+     */
     @Override
     public double getBalance() {
         return this.balance;
     }
 
+    /**
+     * @return the type of the account
+     * @see it.unicam.cs.pa.jbudget097845.core.account.AccountType
+     */
     @Override
     public AccountType getType() {
         return this.type;

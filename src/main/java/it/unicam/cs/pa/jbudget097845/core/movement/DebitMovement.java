@@ -13,6 +13,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that define movement of type DEBIT
+ *
+ * @see MovementType
+ *
+ */
 @JsonTypeName("debit_movement")
 public class DebitMovement implements Movement {
 

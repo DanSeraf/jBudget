@@ -2,6 +2,9 @@ package it.unicam.cs.pa.jbudget097845;
 
 import org.apache.commons.cli.*;
 
+/**
+ * Simple class to parse the command line options
+ */
 public class CommandLineParser {
 
     private static CommandLineParser class_instance = null;

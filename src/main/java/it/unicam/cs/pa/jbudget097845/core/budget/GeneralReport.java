@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+/**
+ * Class that manage the creation of a new report (the gain/expense difference associated
+ * at each Tag)
+ *
+ * @see BudgetReport
+ *
+ */
 public class GeneralReport implements BudgetReport {
 
     private Budget budget;
@@ -51,9 +58,5 @@ public class GeneralReport implements BudgetReport {
     @Override
     public double get(Tag t) {
         return this.reports.get(t);
-    }
-
-    private Predicate<Movement> getPredicate(Tag t) {
-        return m -> m.getTags().contains(t);
     }
 }

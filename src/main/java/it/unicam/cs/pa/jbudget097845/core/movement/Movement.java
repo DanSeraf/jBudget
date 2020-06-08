@@ -14,6 +14,13 @@ import java.util.List;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
+/**
+ * Interface implemented by the classes that should managa a single type of movement.
+ * It is able to access/modify the information associated to a movement.
+ *
+ * @author Daniele Serafini
+ *
+ */
 @JsonTypeInfo(use = NAME, include = PROPERTY)
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,
         scope=Movement.class)
@@ -22,25 +29,62 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
         @JsonSubTypes.Type(value = DebitMovement.class, name = "debit_movement")
 })
 public interface Movement {
+
+    /**
+     * @return the MovementType
+     *
+     * @see MovementType
+     */
     MovementType getType();
 
+    /**
+     * @return the description of the movement
+     */
     String getDescription();
 
+    /**
+     *
+     * @param description the description to set
+     */
     void setDescription(String description);
 
+    /**
+     * @return the Transaction associated to the movement
+     */
     Transaction getTransaction();
 
+    /**
+     * @return the amount of the movement
+     */
     double amount();
 
+    /**
+     * @return the Account associated to the movement
+     */
     Account getAccount();
 
+    /**
+     * @param a the account referenced to the movement
+     */
     void setAccount(Account a);
 
+    /**
+     * @return the date of the movement
+     */
     LocalDate getDate();
 
+    /**
+     * @return the tags associated to the movement
+     */
     List<Tag> getTags();
 
+    /**
+     * @param t the tag to be added
+     */
     void addTag(Tag t);
 
+    /**
+     * @param t the tab to be removed
+     */
     void removeTag(Tag t);
 }

@@ -16,6 +16,12 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * Class that manage the behavior of the application data
+ *
+ * It is Serializable because it is the main class used by the Application State
+ * to save all the application data.
+ */
 public class Ledger implements Registry, Serializable {
 
     private List<Account> accounts = new ArrayList<>();
@@ -108,6 +114,6 @@ public class Ledger implements Registry, Serializable {
     }
 
     @Override
-    public void schedule(LocalDate d) {
+    public void schedule(LocalDate d, List<Transaction> transacions) {
     }
 }

@@ -10,6 +10,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class the define a movement of type CREDIT
+ *
+ * @see MovementType
+ *
+ */
 @JsonTypeName("credit_movement")
 public class CreditMovement implements Movement {
 

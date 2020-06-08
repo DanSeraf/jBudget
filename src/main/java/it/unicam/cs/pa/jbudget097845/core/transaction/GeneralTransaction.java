@@ -9,6 +9,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that define a general transaction behavior
+ *
+ * @see Transaction
+ */
 public class GeneralTransaction implements Transaction {
 
     private List<Movement> movements = new ArrayList<>();
@@ -27,6 +32,13 @@ public class GeneralTransaction implements Transaction {
         addToTotal(m);
         tags.addAll(m.getTags());
         this.movements.add(m);
+    }
+
+    @Override
+    public void deleteMovement(Movement m) {
+        removeFromTotal(m);
+        tags.removeAll(m.getTags());
+        this.movements.remove(m);
     }
 
     @Override
@@ -56,6 +68,11 @@ public class GeneralTransaction implements Transaction {
 
     private void addToTotal(Movement m) {
         if (m.getType() == MovementType.CREDIT) this.totalAmount += m.amount();
+        else this.totalAmount -= m.amount();
+    }
+
+    private void removeFromTotal(Movement m) {
+        if (m.getType() == MovementType.DEBIT) this.totalAmount += m.amount();
         else this.totalAmount -= m.amount();
     }
 

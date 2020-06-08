@@ -4,9 +4,6 @@ import it.unicam.cs.pa.jbudget097845.core.*;
 import it.unicam.cs.pa.jbudget097845.server.Server;
 import org.apache.commons.cli.CommandLine;
 
-import java.io.File;
-import java.util.Objects;
-
 public class Main {
     public static void main(String[] args) {
         CommandLineParser.init();
@@ -17,7 +14,7 @@ public class Main {
 
         ApplicationState.init();
         Registry r = (Registry) ApplicationState.load(StateType.REGISTRY);
-        Controller.init(r);
+        ApplicationController.init(r);
         Server.run(host, port);
     }
 }

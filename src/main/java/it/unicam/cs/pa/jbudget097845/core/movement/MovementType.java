@@ -1,5 +1,8 @@
 package it.unicam.cs.pa.jbudget097845.core.movement;
 
+/**
+ * Enumeration the define the types of movement
+ */
 public enum MovementType {
     DEBIT,
     CREDIT;

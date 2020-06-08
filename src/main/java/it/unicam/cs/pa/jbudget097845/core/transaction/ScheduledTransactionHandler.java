@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class GeneralScheduledTransaction implements ScheduledTransaction {
+/**
+ * Class that contains various scheduled transactions
+ */
+public class ScheduledTransactionHandler implements ScheduledTransaction {
 
     private String description;
     private boolean completed = false;
     private List<Transaction> transactions = new ArrayList<>();
     private LocalDate date;
 
-    public GeneralScheduledTransaction(String description, LocalDate d) {
+    public ScheduledTransactionHandler(String description, LocalDate d) {
         this.description = description;
         this.date = d;
     }

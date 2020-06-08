@@ -9,9 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Class responsible of managing new movements
+ * Class responsible of managing the creation of new movements
+ *
  */
-
 public class MovementManager {
 
     private MovementManager class_instance = null;

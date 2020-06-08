@@ -2,7 +2,6 @@ package it.unicam.cs.pa.jbudget097845.core.account;
 
 import com.fasterxml.jackson.annotation.*;
 import it.unicam.cs.pa.jbudget097845.core.Registry;
-import it.unicam.cs.pa.jbudget097845.core.movement.CreditMovement;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.exc.AccountBalanceError;
@@ -12,6 +11,15 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * This class is responsible of managing an account of type ASSET.
+ * It provide the methods to add a new movement and should interact with
+ * the Registry in order to register the transaction
+ *
+ * @see AccountType
+ * @see Registry
+ *
+ */
 @JsonTypeName("general_asset_account")
 public class GeneralAssetAccount implements Account {
 
@@ -47,20 +55,12 @@ public class GeneralAssetAccount implements Account {
         return this.belowZero;
     }
 
-    @Override
-    public void addMovement(Movement m) throws AccountBalanceError {
-        if (m.getType() == MovementType.DEBIT) {
-            addDebit(m);
-        } else if (m.getType() == MovementType.CREDIT) {
-            addCredit(m);
-        }
-
-        m.setAccount(this);
-        m.getTransaction().addMovement(m);
-        this.movements.add(m);
-        registry.addTransaction(m.getTransaction());
-    }
-
+    /**
+     * Action performed to the balance when the movement is a debit
+     *
+     * @param m the debit movement
+     * @throws AccountBalanceError
+     */
     private void addDebit(Movement m) throws AccountBalanceError {
         if (this.balance < m.amount() && !belowZero)
             throw new AccountBalanceError(String.format(
@@ -70,6 +70,20 @@ public class GeneralAssetAccount implements Account {
 
     private void addCredit(Movement m) {
         this.balance += m.amount();
+    }
+
+    @Override
+    public void addMovement(Movement m) throws AccountBalanceError {
+        if (m.getType() == MovementType.DEBIT) {
+            addDebit(m);
+        } else if (m.getType() == MovementType.CREDIT) {
+            addCredit(m);
+        }
+
+        registry.addTransaction(m.getTransaction());
+        m.setAccount(this);
+        m.getTransaction().addMovement(m);
+        this.movements.add(m);
     }
 
     @Override
@@ -87,21 +101,35 @@ public class GeneralAssetAccount implements Account {
         return this.openingBalance;
     }
 
+    /**
+     * @return the current balance of the account
+     */
     @Override
     public double getBalance() {
         return this.balance;
     }
 
+    /**
+     * @return the type of the account
+     * @see it.unicam.cs.pa.jbudget097845.core.account.AccountType
+     */
     @Override
     public AccountType getType() {
         return this.type;
     }
 
+    /**
+     * @return the movements associated to the account
+     */
     @Override
     public List<Movement> getMovements() {
         return this.movements;
     }
 
+    /**
+     * @param predicate predicate to filter movements
+     * @return the filtered movements associated to the account
+     */
     @Override
     public List<Movement> getMovements(Predicate<Movement> predicate) {
         return this.movements.stream()
