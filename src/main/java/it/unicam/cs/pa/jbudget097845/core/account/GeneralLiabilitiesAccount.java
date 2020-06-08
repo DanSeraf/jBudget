@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.core.account;
 
 import com.fasterxml.jackson.annotation.*;
+import it.unicam.cs.pa.jbudget097845.core.Registry;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.exc.AccountBalanceError;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 public class GeneralLiabilitiesAccount implements Account {
 
     private final AccountType type;
+    @JsonIdentityReference(alwaysAsId = true)
+    private Registry registry;
     private double openingBalance;
     private double balance;
     private String name;
@@ -26,12 +29,14 @@ public class GeneralLiabilitiesAccount implements Account {
             @JsonProperty("opening_balance") double openingBalance,
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
-            @JsonProperty("account_type") AccountType type)
+            @JsonProperty("account_type") AccountType type,
+            @JsonProperty("registry") Registry registry)
     {
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
         this.type = type;
+        this.registry = registry;
     }
 
     @Override

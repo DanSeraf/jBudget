@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.core.account;
 
 import com.fasterxml.jackson.annotation.*;
+import it.unicam.cs.pa.jbudget097845.core.Registry;
 import it.unicam.cs.pa.jbudget097845.core.movement.CreditMovement;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 public class GeneralAssetAccount implements Account {
 
     private final AccountType type;
+    @JsonIdentityReference(alwaysAsId = true)
+    private Registry registry;
     private double openingBalance;
     private double balance;
     private String name;
@@ -28,14 +31,16 @@ public class GeneralAssetAccount implements Account {
             @JsonProperty("opening_balance") double openingBalance,
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
+            @JsonProperty("account_type") AccountType type,
             @JsonProperty("below_zero") boolean belowZero,
-            @JsonProperty("account_type") AccountType type)
+            @JsonProperty("registry") Registry registry)
     {
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
         this.belowZero = belowZero;
         this.type = type;
+        this.registry = registry;
     }
 
     public boolean getBelowZero() {
@@ -45,15 +50,26 @@ public class GeneralAssetAccount implements Account {
     @Override
     public void addMovement(Movement m) throws AccountBalanceError {
         if (m.getType() == MovementType.DEBIT) {
-            if (this.balance < m.amount() && !belowZero)
-                throw new AccountBalanceError(String.format(
-                        "Trying to remove amount '%.2f' on account with balance '%.2f'", m.amount(), this.balance));
-            this.balance -= m.amount();
+            addDebit(m);
         } else if (m.getType() == MovementType.CREDIT) {
-            this.balance += m.amount();
+            addCredit(m);
         }
+
         m.setAccount(this);
+        m.getTransaction().addMovement(m);
         this.movements.add(m);
+        registry.addTransaction(m.getTransaction());
+    }
+
+    private void addDebit(Movement m) throws AccountBalanceError {
+        if (this.balance < m.amount() && !belowZero)
+            throw new AccountBalanceError(String.format(
+                    "Trying to remove amount '%.2f' on account with balance '%.2f'", m.amount(), this.balance));
+        this.balance -= m.amount();
+    }
+
+    private void addCredit(Movement m) {
+        this.balance += m.amount();
     }
 
     @Override

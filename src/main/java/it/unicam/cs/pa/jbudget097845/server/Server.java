@@ -36,6 +36,8 @@ public class Server {
     public static void openEndpoints() {
         Endpoints.newAccount();
         Endpoints.getAccounts();
+        Endpoints.addTransaction();
+        Endpoints.addTag();
     }
 
 }

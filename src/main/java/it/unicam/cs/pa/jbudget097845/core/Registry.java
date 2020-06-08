@@ -1,8 +1,6 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
@@ -17,6 +15,8 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
 @JsonTypeInfo(use = NAME, include = PROPERTY)
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class,
+        scope= Registry.class)
 @JsonSubTypes(
         @JsonSubTypes.Type(value=Ledger.class, name="ledger")
 )
@@ -34,6 +34,8 @@ public interface Registry {
     List<Tag> getTags();
 
     List<Tag> getTags(Predicate<Tag> p);
+
+    Tag getTag(Predicate<Tag> p);
 
     void addAccount(AccountType type, String name, String description, double openingBalance);
 

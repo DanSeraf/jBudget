@@ -6,14 +6,19 @@ import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.core.budget.BudgetHandler;
 import it.unicam.cs.pa.jbudget097845.core.budget.BudgetReport;
 import it.unicam.cs.pa.jbudget097845.core.budget.GeneralReport;
+import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
+import it.unicam.cs.pa.jbudget097845.core.movement.MovementManager;
+import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
+import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
+import it.unicam.cs.pa.jbudget097845.core.transaction.TransactionManager;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.exc.AccountTypeException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * This class is responsible of managing the communication between the API server
@@ -27,8 +32,10 @@ public class Controller {
     private static Registry registry;
     private static BudgetHandler budgetHandler;
     private static Map<String, AccountType> accountTypes = new HashMap<>();
+    private static Map<String, MovementType> movementTypes = new HashMap<>();
 
-    private Controller() { }
+    private Controller() {
+    }
 
     private static void initAccountTypes() {
         AccountType[] account_types = AccountType.values();
@@ -38,8 +45,12 @@ public class Controller {
         }
     }
 
-    public static Registry getRegistry() {
-        return registry;
+    private static void initMovementType() {
+        MovementType[] movement_type = MovementType.values();
+
+        for (MovementType mt: movement_type) {
+            movementTypes.put(mt.toString(), mt);
+        }
     }
 
     public Controller Controller() {
@@ -51,17 +62,30 @@ public class Controller {
     }
 
     public static void init(Registry r, BudgetHandler bh) {
-        initAccountTypes();
         registry = r;
         budgetHandler = bh;
+
+        initAccountTypes();
+        initMovementType();
+    }
+
+    public static void init(Registry r) {
+        registry = r;
+        budgetHandler = new BudgetHandler();
+
+        initAccountTypes();
+        initMovementType();
     }
 
     public static void init() {
-        initAccountTypes();
         registry = new Ledger();
         budgetHandler = new BudgetHandler();
+
+        initAccountTypes();
+        initMovementType();
     }
 
+    //TODO throw exception if account name already exists
     public static void generateAccount(String name, String description, String account_type, String openingBalance)
     throws AccountCreationError, AccountTypeException
     {
@@ -84,7 +108,29 @@ public class Controller {
         return accounts;
     }
 
-    public static List<Account> accs() {
-        return registry.getAccounts();
+    public static void generateTransaction(JSONArray movements) {
+        Transaction t = TransactionManager.newTransaction();
+
+        for (int i = 0; i < movements.length(); i++) {
+            List<Tag> tags = new ArrayList<>();
+            String account_name = movements.getJSONObject(i).getString("account_name");
+            MovementType movement_type = movementTypes.get(movements.getJSONObject(i).getString("movement_type"));
+            double amount = Double.parseDouble(movements.getJSONObject(i).getString("amount"));
+            JSONArray tags_array = movements.getJSONObject(i).getJSONArray("tags");
+            for (int j = 0; j < tags_array.length(); j++) {
+                 String tag_name = tags_array.getString(i);
+                 tags.add(registry.getTag(tag -> Objects.equals(tag.getName(), tag_name)));
+            }
+            Movement new_m = MovementManager.newMovement(
+                    movement_type, amount, t, LocalDate.now(),tags);
+            Account account = registry.getAccount(a -> a.getName().equals(account_name));
+            account.addMovement(new_m);
+        }
+        registry.addTransaction(t);
     }
+
+    public static void addTag(String name, String description) {
+        registry.addTag(name, description);
+    }
+
 }

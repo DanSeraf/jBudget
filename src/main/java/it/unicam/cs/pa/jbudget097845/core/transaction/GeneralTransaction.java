@@ -1,8 +1,6 @@
 package it.unicam.cs.pa.jbudget097845.core.transaction;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
@@ -27,6 +25,7 @@ public class GeneralTransaction implements Transaction {
     @Override
     public void addMovement(Movement m) {
         addToTotal(m);
+        tags.addAll(m.getTags());
         this.movements.add(m);
     }
 

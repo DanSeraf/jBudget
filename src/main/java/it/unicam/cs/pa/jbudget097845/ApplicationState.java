@@ -1,5 +1,7 @@
 package it.unicam.cs.pa.jbudget097845;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -21,69 +23,71 @@ import java.io.IOException;
 
 public class ApplicationState {
 
-    private ApplicationState class_instance = null;
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final File DEFAULT_DIR_PATH = new File("./data");
-    private final File DEFAULT_REGISTRY_PATH = new File("./data/registry.json");
-    private final File DEFAULT_REPORT_PATH = new File("./data/report.json");
-    private File registry_path;
-    private File report_path;
+    private static ApplicationState class_instance = null;
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final File DEFAULT_DIR_PATH = new File("./data");
+    private static final File DEFAULT_REGISTRY_PATH = new File("./data/registry.json");
+    private static final File DEFAULT_REPORT_PATH = new File("./data/report.json");
+    private static File registryPath;
+    private static File reportPath;
 
-    private ApplicationState() {}
-
-    public ApplicationState ApplicationState() {
-        if (this.class_instance == null)
-            this.class_instance = new ApplicationState();
-        return this.class_instance;
+    private ApplicationState() {
     }
 
-    public void init(File registry_path, File report_path) throws DirectoryError {
+    public static ApplicationState ApplicationState() {
+        if (class_instance == null)
+            class_instance = new ApplicationState();
+        return class_instance;
+    }
+
+    public static void init(File registry_path, File report_path) throws DirectoryError {
         if (!registry_path.getParentFile().mkdirs() || report_path.getParentFile().mkdirs())
             throw new DirectoryError("Error creating directory to store application data");
 
-        this.registry_path = registry_path;
-        this.report_path = report_path;
+        registryPath = registry_path;
+        reportPath = report_path;
 
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         mapper.registerModule(new JavaTimeModule());
     }
 
-    public void init() throws DirectoryError {
-        if (!this.DEFAULT_DIR_PATH.exists())
-            if (!this.DEFAULT_DIR_PATH.mkdir())
+    public static void init() throws DirectoryError {
+        if (!DEFAULT_DIR_PATH.exists())
+            if (!DEFAULT_DIR_PATH.mkdir())
                 throw new DirectoryError("Error creating directory to store application data");
 
-        this.registry_path = DEFAULT_REGISTRY_PATH;
-        this.report_path = DEFAULT_REPORT_PATH;
+        registryPath = DEFAULT_REGISTRY_PATH;
+        reportPath = DEFAULT_REPORT_PATH;
 
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         mapper.registerModule(new JavaTimeModule());
     }
 
-    public void save(Object o) throws UnsupportedOperationException {
+    public static void save(Object o) throws UnsupportedOperationException {
         try {
-            if (o instanceof Registry) mapper.writeValue(registry_path, o);
-            else if (o instanceof BudgetReport) mapper.writeValue(report_path, o);
+            if (o instanceof Registry) mapper.writeValue(registryPath, o);
+            else if (o instanceof BudgetReport) mapper.writeValue(reportPath, o);
             else throw new UnsupportedOperationException("The storing of the object provided is not implemented yet");
         } catch (IOException e) {
             System.err.println("Error while storing application data");
         }
     }
 
-    public Object load(StateType type) throws UnsupportedOperationException {
+    public static Object load(StateType type) throws UnsupportedOperationException {
         try {
             switch (type) {
                 case REGISTRY:
-                    return mapper.readValue(registry_path, Registry.class);
+                    return mapper.readValue(registryPath, Registry.class);
                 case REPORT:
-                    return mapper.readValue(report_path, BudgetReport.class);
+                    return mapper.readValue(reportPath, BudgetReport.class);
                 default:
                     throw new UnsupportedOperationException("The load of the state provided is not implemented yet");
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            return null;
         }
+        return null;
     }
 }

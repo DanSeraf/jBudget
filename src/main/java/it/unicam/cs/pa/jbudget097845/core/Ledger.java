@@ -1,18 +1,13 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.fasterxml.jackson.databind.annotation.JsonValueInstantiator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import it.unicam.cs.pa.jbudget097845.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
-import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
-import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
-import it.unicam.cs.pa.jbudget097845.exc.AccountException;
-import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
-import it.unicam.cs.pa.jbudget097845.exc.TransactionError;
+import it.unicam.cs.pa.jbudget097845.exc.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -27,6 +22,7 @@ public class Ledger implements Registry, Serializable {
     private List<Transaction> transactions = new ArrayList<>();
     private List<ScheduledTransaction> scheduledTransactions = new ArrayList<>();
     private List<Tag> tags = new ArrayList<>();
+    @JsonIgnore
     private AccountFactory accountManager = new AccountFactory();
 
     public Ledger() {}
@@ -34,8 +30,6 @@ public class Ledger implements Registry, Serializable {
     @Override
     public List<Account> getAccounts() throws AccountNotFound {
         if (this.accounts.size() == 0) throw new AccountNotFound("No accounts added");
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(this.accounts);
         return this.accounts;
     }
 
@@ -52,23 +46,9 @@ public class Ledger implements Registry, Serializable {
 
     @Override
     public void addTransaction(Transaction transaction) throws TransactionError {
-        List<Movement> mov_temp = new ArrayList<>();
-        List<Tag> tag_temp = new ArrayList<>();
-
-        this.accounts.forEach(
-                account -> account.getMovements(m -> m.getTransaction() == transaction)
-                        .forEach(m -> {
-                            mov_temp.add(m);
-                            m.getTags().forEach(tag_temp::add);
-                        }));
-
-        if (mov_temp.size() == 0)
-            throw new TransactionError("The transaction can't be generated since no movements are added to the accounts");
-
-        mov_temp.forEach(transaction::addMovement);
-        tag_temp.forEach(transaction::addTag);
-
+        if (this.transactions.contains(transaction)) return;
         transactions.add(transaction);
+        ApplicationState.save(this);
     }
 
     @Override
@@ -96,16 +76,30 @@ public class Ledger implements Registry, Serializable {
     }
 
     @Override
+    public Tag getTag(Predicate<Tag> p) {
+        System.out.println(tags);
+        Tag tag = this.tags.stream()
+                .filter(p)
+                .findAny()
+                .orElse(null);
+        if (tag == null)
+            throw new TagNotFound("The request account is not found");
+        else return tag;
+    }
+
+    @Override
     public void addAccount(AccountType type, String name, String description, double openingBalance)
     throws AccountCreationError {
-        Account new_account = accountManager.newAccount(type, name, description, openingBalance);
+        Account new_account = accountManager.newAccount(type, name, description, openingBalance, this);
         this.accounts.add(new_account);
+        ApplicationState.save(this);
     }
 
     @Override
     public void addTag(String name, String description) {
         Tag tag = new GeneralTag(name, description);
         tags.add(tag);
+        ApplicationState.save(this);
     }
 
     @Override

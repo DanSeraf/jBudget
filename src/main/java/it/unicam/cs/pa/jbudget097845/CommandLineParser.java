@@ -4,7 +4,7 @@ import org.apache.commons.cli.*;
 
 public class CommandLineParser {
 
-    private CommandLineParser class_instance = null;
+    private static CommandLineParser class_instance = null;
     private static final DefaultParser parser = new DefaultParser();
     private static final HelpFormatter formatter = new HelpFormatter();
     private static final Options options = new Options();
@@ -25,7 +25,15 @@ public class CommandLineParser {
                 .hasArg(true)
                 .build();
 
-        options.addOption(host).addOption(port);
+        Option config = Option.builder().required(false)
+                .longOpt("registry-path")
+                .desc("define the configuration path")
+                .hasArg(true)
+                .build();
+
+        options.addOption(host)
+                .addOption(port)
+                .addOption(config);
     }
 
     public CommandLineParser CommandLineParser() {

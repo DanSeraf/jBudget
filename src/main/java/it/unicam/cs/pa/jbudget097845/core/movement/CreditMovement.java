@@ -14,10 +14,10 @@ import java.util.List;
 public class CreditMovement implements Movement {
 
     private final MovementType type;
-    private double amount;
+    private final double amount;
     private Account account = null;
     private String description = "";
-    private Transaction transaction;
+    private final Transaction transaction;
     private LocalDate date;
     @JsonIdentityReference(alwaysAsId = true)
     private List<Tag> tags = new ArrayList<>();
