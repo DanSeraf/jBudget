@@ -14,6 +14,7 @@ public class Main {
 
         ApplicationController controller = ApplicationController.instance();
         ApplicationState state = ApplicationState.instance();
+        state.init();
         Registry r = (Registry) state.load(StateType.REGISTRY);
         controller.init(r);
         Server.run(host, port);
