@@ -15,7 +15,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
 /**
- * Interface implemented by the classes that should managa a single type of movement.
+ * Interface implemented by the classes that should manage a single type of movement.
  * It is able to access/modify the information associated to a movement.
  *
  * @author Daniele Serafini
