@@ -12,7 +12,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 
 /**
- * Interface implemented by the classes that implements a transaction scheduled in a
+ * Interface implemented by the classes that implement one of more transaction(s) in
  * specific date.
  *
  * When isCompleted is true it means that all the transactions are correcly added.

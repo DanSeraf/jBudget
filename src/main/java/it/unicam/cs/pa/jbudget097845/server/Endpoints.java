@@ -2,6 +2,10 @@ package it.unicam.cs.pa.jbudget097845.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.cs.pa.jbudget097845.core.ApplicationController;
+import it.unicam.cs.pa.jbudget097845.core.command.CommandHandler;
+import it.unicam.cs.pa.jbudget097845.core.command.actions.GenerateTag;
+import it.unicam.cs.pa.jbudget097845.core.command.actions.GenerateTransactions;
+import it.unicam.cs.pa.jbudget097845.core.command.actions.GetAccounts;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.exc.AccountTypeException;
@@ -24,6 +28,7 @@ public class Endpoints {
 
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final ApplicationController controller = ApplicationController.instance();
+    private static final CommandHandler commandHandler = new CommandHandler();
 
     /**
      * Manage the creation of a new account
@@ -52,13 +57,16 @@ public class Endpoints {
      */
     public static void getAccounts() {
         get("/accounts", ((request, response) -> {
+            /**
             Map<String, Map<String, String>> accounts;
             try {
                 accounts = controller.getAccounts();
             } catch (AccountNotFound anf) {
                 return "NOACCOUNTS";
             }
-            return mapper.writeValueAsString(accounts);
+             */
+            return commandHandler.handle(new GetAccounts());
+            //return mapper.writeValueAsString(accounts);
         }));
     }
 
@@ -78,8 +86,8 @@ public class Endpoints {
      */
     public static void addTransaction() {
         post("/addtransaction", ((request, response) -> {
-            String movements_array = request.body();
-            controller.generateTransaction(new JSONArray(movements_array));
+            commandHandler.handle(
+                    new GenerateTransactions(), new JSONArray(request.body()));
             return response;
         }));
     }
@@ -91,9 +99,8 @@ public class Endpoints {
      */
     public static void addTag() {
         post("/addtag", ((request, response) -> {
-            String name = request.queryParams("name");
-            String description = request.queryParams("description");
-            controller.addTag(name, description);
+            commandHandler.handle(
+                    new GenerateTag(), new JSONArray(request.body()));
             return response;
         }));
     }
