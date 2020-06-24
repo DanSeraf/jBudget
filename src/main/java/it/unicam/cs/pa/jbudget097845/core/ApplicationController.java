@@ -9,11 +9,7 @@ import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.TransactionManager;
 import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
-import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
-import it.unicam.cs.pa.jbudget097845.exc.AccountTypeException;
-import org.json.JSONArray;
 
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -34,33 +30,8 @@ public class ApplicationController {
     private BudgetHandler budgetHandler;
     private final MovementManager movementManager = MovementManager.instance();
     private final TransactionManager transactionManager = TransactionManager.instance();
-    private final Map<String, AccountType> accountTypes;
-    private final Map<String, MovementType> movementTypes;
 
     private ApplicationController() {
-        accountTypes = initAccountTypes();
-        movementTypes = initMovementType();
-    }
-
-    private Map<String, AccountType> initAccountTypes() {
-        AccountType[] types = AccountType.values();
-        Map<String, AccountType> account_types = new HashMap<>();
-
-        for (AccountType at: types) {
-            account_types.put(at.toString(), at);
-        }
-        return account_types;
-    }
-
-    private Map<String, MovementType> initMovementType() {
-        MovementType[] types = MovementType.values();
-        Map<String, MovementType> movement_types = new HashMap<>();
-
-
-        for (MovementType mt: types) {
-            movement_types.put(mt.toString(), mt);
-        }
-        return movement_types;
     }
 
     public static ApplicationController instance() {
@@ -97,15 +68,13 @@ public class ApplicationController {
      * @param account_type the AccountType
      * @param openingBalance the opening balance of the account
      * @throws AccountCreationError in case of creation error
-     * @throws AccountTypeException in case the type of the account is wrong
      */
     //TODO throw exception if account name already exists
     public void generateAccount(String name, String description, String account_type, String openingBalance)
-    throws AccountCreationError, AccountTypeException
+    throws AccountCreationError
     {
         double op_balance = Double.parseDouble(openingBalance);
-        AccountType at = accountTypes.get(account_type);
-        if (at == null) throw new AccountTypeException("The account type provided doesn't exists");
+        AccountType at = AccountType.of(account_type);
         registry.addAccount(at, name, description, op_balance);
     }
 
@@ -115,40 +84,25 @@ public class ApplicationController {
      * @see Registry
      *
      * @return the formatted message containing all the accounts
-     * @throws AccountNotFound
      */
-    public Map<String, Map<String, String>> getAccounts() throws AccountNotFound {
-        Map<String, Map<String, String>> accounts = new HashMap<>();
-        for (Account acc: registry.getAccounts()) {
-            accounts.put(acc.getName(), new HashMap<String, String>() {{
-                put("description", acc.getDescription());
-                put("balance", Double.toString(acc.getBalance()));
-                put("opening_balance", Double.toString(acc.getOpeningBalance()));
-            }});
-        }
-        System.out.println(accounts);
-        return accounts;
+    public List<Account> getAccounts() {
+        return registry.getAccounts();
     }
 
-    public void generateTransaction(JSONArray movements) {
-        Transaction t = transactionManager.newTransaction(LocalDate.now());
+    public void newTransaction(
+            String account_name, Transaction t, String rawType, String rawAmount, List<String> tagNames) {
 
-        for (int i = 0; i < movements.length(); i++) {
-            List<Tag> tags = new ArrayList<>();
-            String account_name = movements.getJSONObject(i).getString("account_name");
-            MovementType movement_type = movementTypes.get(movements.getJSONObject(i).getString("movement_type"));
-            double amount = Double.parseDouble(movements.getJSONObject(i).getString("amount"));
-            JSONArray tags_array = movements.getJSONObject(i).getJSONArray("tags");
-            for (int j = 0; j < tags_array.length(); j++) {
-                 String tag_name = tags_array.getString(i);
-                 tags.add(registry.getTag(tag -> Objects.equals(tag.getName(), tag_name)));
-            }
-            Movement new_m = movementManager.newMovement(
-                    movement_type, amount, t, tags);
-            Account account = registry.getAccount(a -> a.getName().equals(account_name));
-            account.addMovement(new_m);
-        }
-        registry.addTransaction(t);
+        List<Tag> tags = new ArrayList<>();
+        tagNames.forEach(tag_name -> {
+            tags.add(registry.getTag(tag -> Objects.equals(tag.getName(), tag_name)));
+        });
+
+        double amount = Double.parseDouble(rawAmount);
+        MovementType movementType = MovementType.of(rawType);
+        Movement new_m = movementManager.newMovement(
+                movementType, amount, t, tags);
+        Account account = registry.getAccount(a -> a.getName().equals(account_name));
+        account.addMovement(new_m);
     }
 
     public void generateBudget() {
@@ -158,5 +112,4 @@ public class ApplicationController {
     public void addTag(String name, String description) {
         registry.addTag(name, description);
     }
-
 }
