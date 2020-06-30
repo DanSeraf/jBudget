@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class GetAccounts implements ReceiveAction {
 
-    private final ApplicationController controller = ApplicationController.instance();
+    private final ApplicationController controller = new ApplicationController();
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override

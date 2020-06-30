@@ -12,6 +12,7 @@ import static spark.Spark.port;
  * @see Endpoints
  *
  */
+@Deprecated
 public class Server {
 
     /**

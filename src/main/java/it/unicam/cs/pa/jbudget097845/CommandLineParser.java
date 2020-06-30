@@ -5,6 +5,7 @@ import org.apache.commons.cli.*;
 /**
  * Simple class to parse the command line options
  */
+@Deprecated
 public class CommandLineParser {
 
     private static final DefaultParser parser = new DefaultParser();

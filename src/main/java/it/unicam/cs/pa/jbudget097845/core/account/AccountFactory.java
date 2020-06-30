@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.core.account;
 
 import it.unicam.cs.pa.jbudget097845.core.Registry;
-import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 
 /**
  *

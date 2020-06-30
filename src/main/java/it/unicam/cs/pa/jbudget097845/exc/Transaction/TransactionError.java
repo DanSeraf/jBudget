@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845.exc;
+package it.unicam.cs.pa.jbudget097845.exc.Transaction;
 
 /**
  * Excetpion in case of transaction error

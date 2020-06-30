@@ -7,7 +7,7 @@ import it.unicam.cs.pa.jbudget097845.core.movement.MovementManager;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.TransactionManager;
-import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
@@ -17,37 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
     @Test
-    @DisplayName("Asset account generation")
-    public void createAssetAccount() {
-        Registry r = new Ledger();
-        Account account = AccountFactory.newAccount(
-                AccountType.ASSETS, "Bank", "Bank Account", 10000, r);
-
-        assertEquals(10000, account.getBalance());
-        assertEquals(10000, account.getOpeningBalance());
-        assertEquals("Bank", account.getName());
-        assertEquals("Bank Account", account.getDescription());
-    }
-
-    @Test
-    @DisplayName("Liabilities account generation")
-    public void createLiabilitiesAccount() {
-        Registry r = new Ledger();
-        Account account = AccountFactory.newAccount(
-                AccountType.LIABILITIES, "Loan", "Loan expenses account", 10000, r);
-
-        assertEquals(10000, account.getBalance());
-        assertEquals(10000, account.getOpeningBalance());
-        assertEquals("Loan", account.getName());
-        assertEquals("Loan expenses account", account.getDescription());
-    }
-
-    @Test
     @DisplayName("Account creation error while creating an account that can't go under the zero")
     public void createAccountError() {
-        Registry r = new Ledger();
         assertThrows(AccountCreationError.class, () -> AccountFactory.newAccount(
-                AccountType.LIABILITIES, "Loan", "Loan expenses Account", 10000, r, true));
+                AccountType.LIABILITIES, "Loan", "Loan expenses Account", 10000, Ledger.instance(), true));
     }
 
     @Test
@@ -55,7 +28,7 @@ public class AccountTest {
     public void addMovement() {
         MovementManager movementManager = MovementManager.instance();
         TransactionManager transactionManager = TransactionManager.instance();
-        Registry r = new Ledger();
+        Registry r = Ledger.instance();
         r.addTag("rent", "rent gain");
 
         Account account = AccountFactory.newAccount(

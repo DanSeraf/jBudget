@@ -6,5 +6,5 @@ package it.unicam.cs.pa.jbudget097845.core.command.actions;
  */
 @FunctionalInterface
 public interface ReceiveAction {
-    public String execute();
+    String execute();
 }

@@ -1,11 +1,11 @@
-package it.unicam.cs.pa.jbudget097845.core;
+package it.unicam.cs.pa.jbudget097845;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import it.unicam.cs.pa.jbudget097845.StateType;
+import it.unicam.cs.pa.jbudget097845.core.Registry;
 import it.unicam.cs.pa.jbudget097845.core.budget.BudgetReport;
 import it.unicam.cs.pa.jbudget097845.exc.DirectoryError;
 
@@ -56,7 +56,7 @@ public class ApplicationState {
 
     public void init() throws DirectoryError {
         if (!DEFAULT_DIR_PATH.exists())
-            if (!DEFAULT_DIR_PATH.mkdir())
+            if(!DEFAULT_DIR_PATH.mkdir())
                 throw new DirectoryError("Error creating directory to store application data");
 
         registryPath = DEFAULT_REGISTRY_PATH;

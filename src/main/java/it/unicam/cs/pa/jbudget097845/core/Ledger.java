@@ -1,12 +1,17 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import it.unicam.cs.pa.jbudget097845.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
-import it.unicam.cs.pa.jbudget097845.exc.*;
+import it.unicam.cs.pa.jbudget097845.exc.Transaction.TransactionError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountNotFound;
+import it.unicam.cs.pa.jbudget097845.exc.tag.TagException;
+import it.unicam.cs.pa.jbudget097845.exc.tag.TagNotFound;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,12 +22,11 @@ import java.util.stream.Collectors;
 
 /**
  * Class that manage the behavior of the application data
- *
- * It is Serializable because it is the main class used by the Application State
- * to save all the application data.
+ * TODO DEPENDENCY INJECTION
  */
 public class Ledger implements Registry, Serializable {
 
+    private static Ledger class_instance = null;
     private List<Account> accounts = new ArrayList<>();
     private List<Transaction> transactions = new ArrayList<>();
     private List<ScheduledTransaction> scheduledTransactions = new ArrayList<>();
@@ -32,7 +36,18 @@ public class Ledger implements Registry, Serializable {
     @JsonIgnore
     private final ApplicationState state = ApplicationState.instance();
 
-    public Ledger() {}
+    private Ledger() {}
+
+    public static Ledger instance() {
+        if (class_instance == null) {
+            class_instance = new Ledger();
+        }
+        return class_instance;
+    }
+
+    public static void setInstance(Ledger l) {
+        class_instance = l;
+    }
 
     @Override
     public List<Account> getAccounts() {
@@ -96,6 +111,8 @@ public class Ledger implements Registry, Serializable {
     @Override
     public void addAccount(AccountType type, String name, String description, double openingBalance)
     throws AccountCreationError {
+        if (getAccount(a -> a.getName().equalsIgnoreCase(name)) != null)
+            throw new AccountCreationError("Account already exists");
         Account new_account = accountManager.newAccount(type, name, description, openingBalance, this);
         this.accounts.add(new_account);
         state.save(this);
@@ -103,6 +120,10 @@ public class Ledger implements Registry, Serializable {
 
     @Override
     public void addTag(String name, String description) {
+        tags.forEach((tag) -> {
+            if (tag.getName().equalsIgnoreCase(name))
+                throw new TagException("Tag already exists");
+        });
         Tag tag = new GeneralTag(name, description);
         tags.add(tag);
         state.save(this);

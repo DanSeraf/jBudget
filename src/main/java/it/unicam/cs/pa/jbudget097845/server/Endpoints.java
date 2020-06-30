@@ -6,12 +6,9 @@ import it.unicam.cs.pa.jbudget097845.core.command.CommandHandler;
 import it.unicam.cs.pa.jbudget097845.core.command.actions.GenerateTag;
 import it.unicam.cs.pa.jbudget097845.core.command.actions.GenerateTransactions;
 import it.unicam.cs.pa.jbudget097845.core.command.actions.GetAccounts;
-import it.unicam.cs.pa.jbudget097845.exc.AccountCreationError;
-import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
-import it.unicam.cs.pa.jbudget097845.exc.AccountTypeException;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountTypeException;
 import org.json.JSONArray;
-
-import java.util.Map;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -24,10 +21,11 @@ import static spark.Spark.post;
  * @see ApplicationController
  *
  */
+@Deprecated
 public class Endpoints {
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static final ApplicationController controller = ApplicationController.instance();
+    private static final ApplicationController controller = new ApplicationController();
     private static final CommandHandler commandHandler = new CommandHandler();
 
     /**
@@ -41,7 +39,7 @@ public class Endpoints {
             String openingBalance = request.queryParams("opening_balance");
 
             try {
-                controller.generateAccount(name, description, type, openingBalance);
+                //controller.generateAccount(name, description, type, openingBalance);
                 response.status(200);
             } catch (AccountCreationError | AccountTypeException | NumberFormatException e){
                 response.status(400);

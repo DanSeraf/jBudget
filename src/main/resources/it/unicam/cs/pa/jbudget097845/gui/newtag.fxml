@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="689.0" prefWidth="1153.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.NewTagController">
+   <children>
+      <TextField fx:id="tagName" layoutX="42.0" layoutY="64.0" prefHeight="26.0" prefWidth="229.0" promptText="Tag Name" />
+      <Label layoutX="42.0" layoutY="21.0" text="CREATE A NEW TAG" />
+      <AnchorPane layoutX="524.0" layoutY="360.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="33.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#goBack" text="&lt;---" />
+         </children>
+      </AnchorPane>
+      <TextField fx:id="tagDescription" layoutX="42.0" layoutY="113.0" prefHeight="26.0" prefWidth="229.0" promptText="Tag Description" />
+      <Separator layoutX="42.0" layoutY="97.0" prefHeight="8.0" prefWidth="229.0" />
+      <Separator layoutX="42.0" layoutY="145.0" prefHeight="8.0" prefWidth="229.0" />
+      <Separator layoutX="42.0" layoutY="48.0" prefHeight="8.0" prefWidth="229.0" />
+      <Button layoutX="42.0" layoutY="200.0" mnemonicParsing="false" onAction="#onSubmit" text="Submit" />
+      <Label fx:id="responseMessage" layoutX="42.0" layoutY="162.0" prefHeight="26.0" prefWidth="229.0" />
+   </children>
+</AnchorPane>

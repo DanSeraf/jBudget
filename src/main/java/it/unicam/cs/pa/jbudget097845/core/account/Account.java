@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
-import it.unicam.cs.pa.jbudget097845.exc.AccountBalanceError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountBalanceError;
 
 import java.util.List;
 import java.util.function.Predicate;

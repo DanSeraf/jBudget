@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.core;
 
 import com.fasterxml.jackson.annotation.*;
+import it.unicam.cs.pa.jbudget097845.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;

@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845.exc;
+package it.unicam.cs.pa.jbudget097845.exc.account;
 
 /**
  * Abstract class for exceptions of type Account
@@ -9,5 +9,10 @@ public abstract class AccountException extends RuntimeException {
 
     public AccountException(String msg) {
         this.message = msg;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

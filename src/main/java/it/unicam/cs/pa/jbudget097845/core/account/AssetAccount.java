@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import it.unicam.cs.pa.jbudget097845.core.Registry;
 import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.movement.MovementType;
-import it.unicam.cs.pa.jbudget097845.exc.AccountBalanceError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountBalanceError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,6 @@ public class AssetAccount implements Account {
         }
 
         m.setAccount(this);
-        m.getTransaction().addMovement(m);
         this.movements.add(m);
         registry.addTransaction(m.getTransaction());
     }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import it.unicam.cs.pa.jbudget097845.core.Tag;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
-import it.unicam.cs.pa.jbudget097845.exc.AccountNotFound;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountNotFound;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +36,7 @@ public class CreditMovement implements Movement {
     {
         this.amount = amount;
         this.transaction = t;
+        this.transaction.addMovement(this);
         this.date = t.getDate();
         this.type = mt;
     }

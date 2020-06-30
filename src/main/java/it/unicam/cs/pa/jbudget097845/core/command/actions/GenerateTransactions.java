@@ -12,7 +12,7 @@ import java.util.List;
 public class GenerateTransactions implements SendAction {
 
     private final TransactionManager transactionManager = TransactionManager.instance();
-    private final ApplicationController controller = ApplicationController.instance();
+    private final ApplicationController controller = new ApplicationController();
 
     @Override
     public void execute(JSONArray jsonArray) {

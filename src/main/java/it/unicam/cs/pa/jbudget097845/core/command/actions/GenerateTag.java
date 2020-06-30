@@ -5,7 +5,7 @@ import org.json.JSONArray;
 
 public class GenerateTag implements SendAction {
 
-    ApplicationController controller = ApplicationController.instance();
+    ApplicationController controller = new ApplicationController();
 
     @Override
     public void execute(JSONArray jsonArray) {
