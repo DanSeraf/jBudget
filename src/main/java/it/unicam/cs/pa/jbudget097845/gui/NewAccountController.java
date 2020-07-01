@@ -1,8 +1,8 @@
 package it.unicam.cs.pa.jbudget097845.gui;
 
-import it.unicam.cs.pa.jbudget097845.core.ApplicationController;
-import it.unicam.cs.pa.jbudget097845.core.Ledger;
-import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
+import it.unicam.cs.pa.jbudget097845.ApplicationController;
+import it.unicam.cs.pa.jbudget097845.model.Ledger;
+import it.unicam.cs.pa.jbudget097845.model.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

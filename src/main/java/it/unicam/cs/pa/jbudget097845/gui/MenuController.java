@@ -1,8 +1,8 @@
 package it.unicam.cs.pa.jbudget097845.gui;
 
-import it.unicam.cs.pa.jbudget097845.core.ApplicationController;
-import it.unicam.cs.pa.jbudget097845.core.Ledger;
-import it.unicam.cs.pa.jbudget097845.core.account.Account;
+import it.unicam.cs.pa.jbudget097845.ApplicationController;
+import it.unicam.cs.pa.jbudget097845.model.Ledger;
+import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,10 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

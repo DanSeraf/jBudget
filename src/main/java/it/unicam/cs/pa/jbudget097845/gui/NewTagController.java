@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.gui;
 
-import it.unicam.cs.pa.jbudget097845.core.ApplicationController;
-import it.unicam.cs.pa.jbudget097845.core.Ledger;
+import it.unicam.cs.pa.jbudget097845.ApplicationController;
+import it.unicam.cs.pa.jbudget097845.model.Ledger;
 import it.unicam.cs.pa.jbudget097845.exc.tag.TagException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

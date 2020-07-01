@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.jbudget097845;
 
-import it.unicam.cs.pa.jbudget097845.core.*;
+import it.unicam.cs.pa.jbudget097845.model.*;
 import it.unicam.cs.pa.jbudget097845.gui.AppMain;
 import javafx.application.Application;
 
