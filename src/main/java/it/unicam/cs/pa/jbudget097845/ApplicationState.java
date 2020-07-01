@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import it.unicam.cs.pa.jbudget097845.core.Registry;
-import it.unicam.cs.pa.jbudget097845.core.budget.BudgetReport;
+import it.unicam.cs.pa.jbudget097845.model.Registry;
+import it.unicam.cs.pa.jbudget097845.model.budget.BudgetReport;
 import it.unicam.cs.pa.jbudget097845.exc.DirectoryError;
 
 import java.io.File;

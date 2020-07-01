@@ -1,11 +1,11 @@
 package it.unicam.cs.pa.jbudget097845.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.unicam.cs.pa.jbudget097845.core.ApplicationController;
-import it.unicam.cs.pa.jbudget097845.core.command.CommandHandler;
-import it.unicam.cs.pa.jbudget097845.core.command.actions.GenerateTag;
-import it.unicam.cs.pa.jbudget097845.core.command.actions.GenerateTransactions;
-import it.unicam.cs.pa.jbudget097845.core.command.actions.GetAccounts;
+import it.unicam.cs.pa.jbudget097845.ApplicationController;
+import it.unicam.cs.pa.jbudget097845.model.command.CommandHandler;
+import it.unicam.cs.pa.jbudget097845.model.command.actions.GenerateTag;
+import it.unicam.cs.pa.jbudget097845.model.command.actions.GenerateTransactions;
+import it.unicam.cs.pa.jbudget097845.model.command.actions.GetAccounts;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountTypeException;
 import org.json.JSONArray;
@@ -51,7 +51,7 @@ public class Endpoints {
     /**
      * Get all the accounts available in the Registry
      *
-     * @see it.unicam.cs.pa.jbudget097845.core.Registry
+     * @see it.unicam.cs.pa.jbudget097845.model.Registry
      */
     public static void getAccounts() {
         get("/accounts", ((request, response) -> {
@@ -93,7 +93,7 @@ public class Endpoints {
     /**
      * Add a new Tag.
      *
-     * @see it.unicam.cs.pa.jbudget097845.core.Tag
+     * @see it.unicam.cs.pa.jbudget097845.model.Tag
      */
     public static void addTag() {
         post("/addtag", ((request, response) -> {
