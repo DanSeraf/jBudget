@@ -62,7 +62,7 @@ public class CreditMovement implements Movement {
     }
 
     @Override
-    public double amount() {
+    public double getAmount() {
         return this.amount;
     }
 

@@ -5,9 +5,11 @@ import it.unicam.cs.pa.jbudget097845.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.core.account.Account;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.core.account.AccountType;
+import it.unicam.cs.pa.jbudget097845.core.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.core.transaction.ScheduledTransaction;
 import it.unicam.cs.pa.jbudget097845.core.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.exc.Transaction.TransactionError;
+import it.unicam.cs.pa.jbudget097845.exc.account.AccountBalanceError;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.exc.tag.TagException;
@@ -66,8 +68,22 @@ public class Ledger implements Registry, Serializable {
     }
 
     @Override
-    public void addTransaction(Transaction transaction) throws TransactionError {
-        if (this.transactions.contains(transaction)) return;
+    public void addTransaction(Transaction transaction) {
+        if (this.transactions.contains(transaction))
+            throw new TransactionError("Transaction already exists");
+
+        for (Movement m: transaction.getMovements()) {
+            Account acc = m.getAccount();
+            try {
+                acc.addMovement(m);
+            } catch (AccountBalanceError abe) {
+                // If there are problems with the account balance, delete all previous
+                // movements in order to restore the previous state
+                acc.deleteMovements(mov -> mov.getTransaction() == transaction);
+                throw abe;
+            }
+        }
+
         transactions.add(transaction);
         state.save(this);
     }

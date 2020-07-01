@@ -77,4 +77,16 @@ public interface Account {
      * @return the filtered movements associated to the account
      */
     List<Movement> getMovements(Predicate<Movement> predicate);
+
+    /**
+     * Delete specific movements from the account.
+     *
+     * @param predicate predicate to filter the account movements
+     */
+    void deleteMovements(Predicate<Movement> predicate);
+
+    /**
+     * @param m the movement to delete
+     */
+    void deleteMovement(Movement m);
 }

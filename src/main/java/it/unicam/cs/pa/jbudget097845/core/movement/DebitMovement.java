@@ -65,7 +65,7 @@ public class DebitMovement implements Movement {
     }
 
     @Override
-    public double amount() {
+    public double getAmount() {
         return this.amount;
     }
 

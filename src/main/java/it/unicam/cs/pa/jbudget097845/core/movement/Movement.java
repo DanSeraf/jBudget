@@ -56,7 +56,7 @@ public interface Movement {
     /**
      * @return the amount of the movement
      */
-    double amount();
+    double getAmount();
 
     /**
      * @return the Account associated to the movement

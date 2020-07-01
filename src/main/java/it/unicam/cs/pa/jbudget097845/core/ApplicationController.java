@@ -56,7 +56,6 @@ public class ApplicationController {
      * @param openingBalance the opening balance of the account
      * @throws AccountCreationError in case of creation error
      */
-    //TODO throw exception if account name already exists
     public void generateAccount(String name, String description, AccountType account_type, double openingBalance)
     throws AccountCreationError
     {
@@ -75,7 +74,7 @@ public class ApplicationController {
     }
 
     public void newTransaction(
-            Account account, Transaction t, String rawType, String rawAmount, List<String> tagNames) {
+            Account account_name, Transaction t, String rawType, String rawAmount, List<String> tagNames) {
 
         List<Tag> tags = new ArrayList<>();
         tagNames.forEach(tag_name -> {

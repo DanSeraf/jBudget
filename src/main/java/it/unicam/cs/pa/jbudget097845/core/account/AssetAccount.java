@@ -25,7 +25,6 @@ public class AssetAccount implements Account {
 
     private final AccountType type;
     @JsonIdentityReference(alwaysAsId = true)
-    private Registry registry;
     private double openingBalance;
     private double balance;
     private String name;
@@ -40,15 +39,14 @@ public class AssetAccount implements Account {
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
             @JsonProperty("account_type") AccountType type,
-            @JsonProperty("below_zero") boolean belowZero,
-            @JsonProperty("registry") Registry registry)
+            @JsonProperty("below_zero") boolean belowZero
+    )
     {
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
         this.belowZero = belowZero;
         this.type = type;
-        this.registry = registry;
     }
 
     public boolean getBelowZero() {
@@ -56,20 +54,28 @@ public class AssetAccount implements Account {
     }
 
     /**
-     * Action performed to the balance when the movement is a debit
+     * Action performed to the balance when the movement is a debit.
+     * The debit is considered negative to the balance
      *
      * @param m the debit movement
      * @throws AccountBalanceError
      */
     private void addDebit(Movement m) throws AccountBalanceError {
-        if (this.balance < m.amount() && !belowZero)
+        if (this.balance < m.getAmount() && !belowZero)
             throw new AccountBalanceError(String.format(
-                    "Trying to remove amount '%.2f' on account with balance '%.2f'", m.amount(), this.balance));
-        this.balance -= m.amount();
+                    "Trying to remove amount '%.2f' on account with balance '%.2f'", m.getAmount(), this.balance));
+        this.balance -= m.getAmount();
     }
 
+    /**
+     * Action performed to the balance when the movement is a credit.
+     * The credit is considered positive to the balance
+     *
+     * @param m the credit movement
+     * @throws AccountBalanceError
+     */
     private void addCredit(Movement m) {
-        this.balance += m.amount();
+        this.balance += m.getAmount();
     }
 
     @Override
@@ -80,9 +86,7 @@ public class AssetAccount implements Account {
             addCredit(m);
         }
 
-        m.setAccount(this);
         this.movements.add(m);
-        registry.addTransaction(m.getTransaction());
     }
 
     @Override
@@ -100,39 +104,41 @@ public class AssetAccount implements Account {
         return this.openingBalance;
     }
 
-    /**
-     * @return the current balance of the account
-     */
     @Override
     public double getBalance() {
         return this.balance;
     }
 
-    /**
-     * @return the type of the account
-     * @see it.unicam.cs.pa.jbudget097845.core.account.AccountType
-     */
     @Override
     public AccountType getType() {
         return this.type;
     }
 
-    /**
-     * @return the movements associated to the account
-     */
     @Override
     public List<Movement> getMovements() {
         return this.movements;
     }
 
-    /**
-     * @param predicate predicate to filter movements
-     * @return the filtered movements associated to the account
-     */
     @Override
     public List<Movement> getMovements(Predicate<Movement> predicate) {
         return this.movements.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteMovements(Predicate<Movement> p) {
+        getMovements(p).forEach(m -> {
+            if (m.getType() == MovementType.CREDIT) addDebit(m);
+            else addCredit(m);
+            this.movements.remove(m);
+        });
+    }
+
+    @Override
+    public void deleteMovement(Movement m) {
+        if (m.getType() == MovementType.CREDIT) addDebit(m);
+        else addCredit(m);
+        this.movements.remove(m);
     }
 }

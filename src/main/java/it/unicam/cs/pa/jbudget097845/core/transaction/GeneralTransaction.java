@@ -46,6 +46,7 @@ public class GeneralTransaction implements Transaction {
     @Override
     public void deleteMovement(Movement m) {
         removeFromTotal(m);
+        m.getAccount().deleteMovement(m);
         tags.removeAll(m.getTags());
         this.movements.remove(m);
     }
@@ -76,13 +77,13 @@ public class GeneralTransaction implements Transaction {
     }
 
     private void addToTotal(Movement m) {
-        if (m.getType() == MovementType.CREDIT) this.totalAmount += m.amount();
-        else this.totalAmount -= m.amount();
+        if (m.getType() == MovementType.CREDIT) this.totalAmount += m.getAmount();
+        else this.totalAmount -= m.getAmount();
     }
 
     private void removeFromTotal(Movement m) {
-        if (m.getType() == MovementType.DEBIT) this.totalAmount += m.amount();
-        else this.totalAmount -= m.amount();
+        if (m.getType() == MovementType.DEBIT) this.totalAmount += m.getAmount();
+        else this.totalAmount -= m.getAmount();
     }
 
     @Override

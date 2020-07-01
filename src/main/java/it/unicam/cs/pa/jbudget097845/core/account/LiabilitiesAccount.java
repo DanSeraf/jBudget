@@ -24,7 +24,6 @@ public class LiabilitiesAccount implements Account {
 
     private final AccountType type;
     @JsonIdentityReference(alwaysAsId = true)
-    private Registry registry;
     private double openingBalance;
     private double balance;
     private String name;
@@ -37,25 +36,24 @@ public class LiabilitiesAccount implements Account {
             @JsonProperty("opening_balance") double openingBalance,
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
-            @JsonProperty("account_type") AccountType type,
-            @JsonProperty("registry") Registry registry)
+            @JsonProperty("account_type") AccountType type
+    )
     {
         this.openingBalance = this.balance = openingBalance;
         this.name = name;
         this.description = description;
         this.type = type;
-        this.registry = registry;
     }
 
     private void addDebit(Movement m) {
-        this.balance += m.amount();
+        this.balance += m.getAmount();
     }
 
     private void addCredit(Movement m) throws AccountBalanceError {
-        if (this.balance < m.amount())
+        if (this.balance < m.getAmount())
             throw new AccountBalanceError(String.format(
                     "Trying to remove amount '%.2f' on a limited account with balance '%.2f'",
-                    m.amount(), this.balance));
+                    m.getAmount(), this.balance));
     }
 
     @Override
@@ -65,47 +63,30 @@ public class LiabilitiesAccount implements Account {
         } else if (m.getType() == MovementType.CREDIT) {
             addCredit(m);
         }
-        m.setAccount(this);
+
         this.movements.add(m);
-        registry.addTransaction(m.getTransaction());
     }
 
-    /**
-     * @return the name of the account
-     */
     @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @return the description of the account
-     */
     @Override
     public String getDescription() {
         return this.description;
     }
 
-    /**
-     * @return the opening balance of the account
-     */
     @Override
     public double getOpeningBalance() {
         return this.openingBalance;
     }
 
-    /**
-     * @return the current balance of the account
-     */
     @Override
     public double getBalance() {
         return this.balance;
     }
 
-    /**
-     * @return the type of the account
-     * @see it.unicam.cs.pa.jbudget097845.core.account.AccountType
-     */
     @Override
     public AccountType getType() {
         return this.type;
@@ -121,5 +102,21 @@ public class LiabilitiesAccount implements Account {
         return this.movements.stream()
                     .filter(predicate)
                     .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteMovements(Predicate<Movement> p) {
+        getMovements(p).forEach(m -> {
+            if (m.getType() == MovementType.CREDIT) addDebit(m);
+            else addCredit(m);
+            this.movements.remove(m);
+        });
+    }
+
+    @Override
+    public void deleteMovement(Movement m) {
+        if (m.getType() == MovementType.CREDIT) addDebit(m);
+        else addCredit(m);
+        this.movements.remove(m);
     }
 }
