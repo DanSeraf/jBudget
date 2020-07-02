@@ -12,19 +12,12 @@ public class AccountFactory {
 
     public static Account newAccount(
             AccountType accountType, String name, String description,
-            double openingBalance, Registry registry, boolean belowZero) throws AccountCreationError {
+            double openingBalance, boolean belowZero) {
         switch (accountType) {
-            case ASSETS: return new AssetAccount(openingBalance, name, description, accountType, belowZero, registry);
-            default: throw new AccountCreationError("Error while creating a new account");
-        }
-    }
-
-    public static Account newAccount(
-            AccountType accountType, String name, String description,
-            double openingBalance, Registry registry) throws AccountCreationError {
-        switch (accountType) {
-            case LIABILITIES: return new LiabilitiesAccount(openingBalance, name, description, accountType, registry);
-            case ASSETS: return new AssetAccount(openingBalance, name, description, accountType, false, registry);
+            case LIABILITIES:
+                if (belowZero) throw new AccountCreationError("Account 'liabilities' doesnt permit debit");
+                return new LiabilitiesAccount(openingBalance, name, description, accountType);
+            case ASSETS: return new AssetAccount(openingBalance, name, description, accountType, belowZero);
             default: throw new AccountCreationError("Error while creating a new account");
         }
     }

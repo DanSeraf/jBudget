@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 /**
  * Class that manage the behavior of the application data
- * TODO DEPENDENCY INJECTION
+ *
  */
 public class Ledger implements Registry, Serializable {
 
@@ -49,6 +49,14 @@ public class Ledger implements Registry, Serializable {
 
     public static void setInstance(Ledger l) {
         class_instance = l;
+    }
+
+    private boolean accountPresent(Predicate<Account> p) {
+        Account acc = this.accounts.stream()
+                .filter(p)
+                .findAny()
+                .orElse(null);
+        return acc != null;
     }
 
     @Override
@@ -114,7 +122,6 @@ public class Ledger implements Registry, Serializable {
 
     @Override
     public Tag getTag(Predicate<Tag> p) {
-        System.out.println(tags);
         Tag tag = this.tags.stream()
                 .filter(p)
                 .findAny()
@@ -125,11 +132,11 @@ public class Ledger implements Registry, Serializable {
     }
 
     @Override
-    public void addAccount(AccountType type, String name, String description, double openingBalance)
+    public void addAccount(AccountType type, String name, String description, double openingBalance, boolean belowZero)
     throws AccountCreationError {
-        if (getAccount(a -> a.getName().equalsIgnoreCase(name)) != null)
+        if (accountPresent(a -> a.getName().equalsIgnoreCase(name)))
             throw new AccountCreationError("Account already exists");
-        Account new_account = accountManager.newAccount(type, name, description, openingBalance, this);
+        Account new_account = accountManager.newAccount(type, name, description, openingBalance, belowZero);
         this.accounts.add(new_account);
         state.save(this);
     }

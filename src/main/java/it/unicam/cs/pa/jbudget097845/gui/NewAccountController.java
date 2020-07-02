@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -31,13 +32,14 @@ public class NewAccountController implements Initializable {
     private TextField accountDescription;
     @FXML
     private Label responseMessage;
+    @FXML
+    private CheckBox belowZero;
 
     private ApplicationController controller = new ApplicationController(Ledger.instance());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.accountTypes.getItems().add(AccountType.ASSETS);
-        this.accountTypes.getItems().add(AccountType.LIABILITIES);
+        this.accountTypes.getItems().addAll(AccountType.values());
     }
 
     @FXML
@@ -52,7 +54,7 @@ public class NewAccountController implements Initializable {
             String account_description = accountDescription.getText();
             AccountType account_type = accountTypes.getValue();
             double opening_balance = Double.parseDouble(accountOpeningBalance.getText());
-            controller.generateAccount(account_name, account_description, account_type, opening_balance);
+            controller.generateAccount(account_name, account_description, account_type, opening_balance, belowZero.isSelected());
             this.responseMessage.setText("Account correctly created");
         } catch (AccountCreationError ace) {
             this.responseMessage.setText(ace.getMessage());

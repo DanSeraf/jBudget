@@ -54,6 +54,7 @@ public class LiabilitiesAccount implements Account {
             throw new AccountBalanceError(String.format(
                     "Trying to remove amount '%.2f' on a limited account with balance '%.2f'",
                     m.getAmount(), this.balance));
+        this.balance += m.getAmount();
     }
 
     @Override
@@ -111,6 +112,11 @@ public class LiabilitiesAccount implements Account {
             else addCredit(m);
             this.movements.remove(m);
         });
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 
     @Override

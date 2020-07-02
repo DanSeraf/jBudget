@@ -39,7 +39,6 @@ public class DebitMovement implements Movement {
     {
         this.amount = amount;
         this.transaction = t;
-        this.transaction.addMovement(this);
         this.date = t.getDate();
         this.type = mt;
     }

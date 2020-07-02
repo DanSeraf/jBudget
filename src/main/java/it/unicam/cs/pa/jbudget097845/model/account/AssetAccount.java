@@ -141,4 +141,9 @@ public class AssetAccount implements Account {
         else addCredit(m);
         this.movements.remove(m);
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

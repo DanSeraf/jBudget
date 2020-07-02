@@ -87,7 +87,7 @@ public interface Registry {
      * @param description the description of the account
      * @param openingBalance the opening balance of the account
      */
-    void addAccount(AccountType type, String name, String description, double openingBalance);
+    void addAccount(AccountType type, String name, String description, double openingBalance, boolean belowZero);
 
     /**
      * Add a tag to the list of available tags

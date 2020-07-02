@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.model.movement;
 
 import it.unicam.cs.pa.jbudget097845.model.Tag;
+import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.transaction.Transaction;
 
 import java.util.List;
@@ -22,15 +23,36 @@ public class MovementManager {
         return class_instance;
     }
 
-    public Movement newMovement(MovementType type, double amount, Transaction t, List<Tag> tags) {
+    public Movement newMovement(MovementType type, double amount, Transaction t, List<Tag> tags, Account acc) {
         Movement new_movement;
         switch (type) {
             case CREDIT:
                 new_movement = new CreditMovement(amount, t, type);
+                new_movement.setAccount(acc);
                 tags.forEach(new_movement::addTag);
                 return new_movement;
             case DEBIT:
                 new_movement = new DebitMovement(amount, t, type);
+                new_movement.setAccount(acc);
+                tags.forEach(new_movement::addTag);
+                return new_movement;
+            default: return null;
+        }
+    }
+
+    public Movement newMovement(MovementType type, double amount, Transaction t, List<Tag> tags, Account acc, String description) {
+        Movement new_movement;
+        switch (type) {
+            case CREDIT:
+                new_movement = new CreditMovement(amount, t, type);
+                new_movement.setAccount(acc);
+                new_movement.setDescription(description);
+                tags.forEach(new_movement::addTag);
+                return new_movement;
+            case DEBIT:
+                new_movement = new DebitMovement(amount, t, type);
+                new_movement.setAccount(acc);
+                new_movement.setDescription(description);
                 tags.forEach(new_movement::addTag);
                 return new_movement;
             default: return null;

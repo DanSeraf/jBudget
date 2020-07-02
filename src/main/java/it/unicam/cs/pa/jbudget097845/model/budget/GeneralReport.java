@@ -41,7 +41,7 @@ public class GeneralReport implements BudgetReport {
             double[] tmp_amount = { 0 };
             movements.forEach((m) -> {
                 if (m.getTags().contains(t)) {
-                    tmp_amount[0] += m.amount();
+                    tmp_amount[0] += m.getAmount();
                 }
             });
             reports.put(t, this.budget.get(t) - tmp_amount[0]);

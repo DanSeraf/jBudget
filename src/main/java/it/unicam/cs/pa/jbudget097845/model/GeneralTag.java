@@ -31,4 +31,9 @@ public class GeneralTag implements Tag {
     public String getDescription() {
         return this.description;
     }
+
+    @Override
+    public String toString() {
+        return "[" + this.name + " | " + this.description + "]";
+    }
 }
