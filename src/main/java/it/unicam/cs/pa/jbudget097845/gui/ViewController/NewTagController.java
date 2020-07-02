@@ -1,24 +1,22 @@
-package it.unicam.cs.pa.jbudget097845.gui;
+package it.unicam.cs.pa.jbudget097845.gui.ViewController;
 
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
+import it.unicam.cs.pa.jbudget097845.gui.ScreenController;
 import it.unicam.cs.pa.jbudget097845.model.Ledger;
 import it.unicam.cs.pa.jbudget097845.exc.tag.TagException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class NewTagController implements Initializable {
+
+    private final ApplicationController controller = new ApplicationController(Ledger.instance());
+    private final ScreenController screenController = ScreenController.instance();
 
     @FXML
     private TextField tagName;
@@ -26,8 +24,6 @@ public class NewTagController implements Initializable {
     private TextField tagDescription;
     @FXML
     private Label responseMessage;
-
-    private final ApplicationController controller = new ApplicationController(Ledger.instance());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,13 +48,8 @@ public class NewTagController implements Initializable {
     }
 
     @FXML
-    private void goBack(ActionEvent event) throws IOException {
-        Parent viewParent = FXMLLoader.load(getClass().getResource("menu.fxml"));
-        Scene newAccountScene = new Scene(viewParent);
-
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(newAccountScene);
-        window.show();
+    private void goBack(ActionEvent event) {
+        screenController.activate("menu");
     }
 
     private boolean validateFields() {

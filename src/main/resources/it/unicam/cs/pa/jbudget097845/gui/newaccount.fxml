@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="640.0" prefWidth="874.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.NewAccountController">
+<AnchorPane prefHeight="640.0" prefWidth="874.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.ViewController.NewAccountController">
    <children>
       <TextField fx:id="accountName" layoutX="42.0" layoutY="64.0" prefHeight="26.0" prefWidth="229.0" promptText="Account Name" />
       <Label layoutX="42.0" layoutY="21.0" text="CREATE A NEW ACCOUNT" />

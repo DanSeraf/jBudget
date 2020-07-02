@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.ViewController.MenuController">
    <children>
       <TableView fx:id="tableView" blendMode="DARKEN" layoutX="162.0" layoutY="41.0" prefHeight="499.0" prefWidth="766.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
         <columns>
@@ -28,7 +28,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
                <padding>
-                  <Insets right="40.0" />
+                  <Insets right="45.0" />
                </padding>
                <VBox.margin>
                   <Insets top="3.0" />
@@ -56,10 +56,10 @@
                   <Insets top="3.0" />
                </VBox.margin>
                <padding>
-                  <Insets right="10.0" />
+                  <Insets right="20.0" />
                </padding>
             </Button>
-            <Button mnemonicParsing="false" onAction="#loadNewAccountView" prefHeight="56.0" prefWidth="165.0" style="-fx-border-color: orange; -fx-border-width: 2;" text="Transaction Overview" wrapText="true">
+            <Button mnemonicParsing="false" onAction="#MovementsView" prefHeight="56.0" prefWidth="165.0" style="-fx-border-color: orange; -fx-border-width: 2;" text="Movements - Overview" wrapText="true">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -67,7 +67,7 @@
                   <Insets top="3.0" />
                </VBox.margin>
                <padding>
-                  <Insets left="8.0" />
+                  <Insets left="14.0" />
                </padding>
             </Button>
          </children>
@@ -83,7 +83,7 @@
       <Label layoutX="729.0" layoutY="640.0" text="Assets:" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="310.0" />
       <Label layoutX="170.0" layoutY="13.0" text="LAST MOVEMENTS">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="14.0" />
          </font></Label>
       <Separator layoutX="154.0" layoutY="5.0" orientation="VERTICAL" prefHeight="31.0" prefWidth="16.0" />
       <Button layoutX="1020.0" layoutY="7.0" mnemonicParsing="false" onAction="#onExit" prefHeight="28.0" prefWidth="66.0" style="-fx-border-color: grey;" text="CLOSE" textFill="#f81414" AnchorPane.rightAnchor="14.0" />

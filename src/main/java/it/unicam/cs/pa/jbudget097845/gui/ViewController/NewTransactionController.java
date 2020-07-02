@@ -1,25 +1,20 @@
-package it.unicam.cs.pa.jbudget097845.gui;
+package it.unicam.cs.pa.jbudget097845.gui.ViewController;
 
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
 import it.unicam.cs.pa.jbudget097845.exc.Transaction.TransactionError;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountNotFound;
+import it.unicam.cs.pa.jbudget097845.gui.ScreenController;
 import it.unicam.cs.pa.jbudget097845.model.Tag;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.movement.MovementType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
-import org.javatuples.Quartet;
 import org.javatuples.Quintet;
 
 import java.io.IOException;
@@ -30,13 +25,14 @@ import java.util.ResourceBundle;
 
 public class NewTransactionController implements Initializable {
 
+    private final ApplicationController controller = new ApplicationController();
+    private final ScreenController screenController = ScreenController.instance();
+    private static int nrow = 0;
+
     @FXML
     GridPane grid;
     @FXML
     Label responseMessage;
-
-    private ApplicationController controller = new ApplicationController();
-    private static int nrow = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -131,10 +127,6 @@ public class NewTransactionController implements Initializable {
     @FXML
     private void goBack(ActionEvent event) throws IOException {
         resetGridPane();
-        Parent viewParent = FXMLLoader.load(getClass().getResource("menu.fxml"));
-        Scene newAccountScene = new Scene(viewParent);
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(newAccountScene);
-        window.show();
+        screenController.activate("menu");
     }
 }

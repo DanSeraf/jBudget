@@ -1,6 +1,7 @@
-package it.unicam.cs.pa.jbudget097845.gui;
+package it.unicam.cs.pa.jbudget097845.gui.ViewController;
 
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
+import it.unicam.cs.pa.jbudget097845.gui.ScreenController;
 import it.unicam.cs.pa.jbudget097845.model.Ledger;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.account.AccountType;
@@ -31,7 +32,8 @@ import java.util.stream.Collectors;
 
 public class MenuController implements Initializable {
 
-    private final ApplicationController controller = new ApplicationController(Ledger.instance());
+    private final ApplicationController controller = new ApplicationController();
+    private final ScreenController screenController = ScreenController.instance();
 
     @FXML
     private Label creditBalance;
@@ -103,29 +105,21 @@ public class MenuController implements Initializable {
 
     @FXML
     private void loadNewAccountView(ActionEvent event) throws IOException {
-        Parent viewParent = FXMLLoader.load(getClass().getResource("newaccount.fxml"));
-        Scene newAccountScene = new Scene(viewParent);
-
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(newAccountScene);
-        window.show();
+        screenController.activate("new_account");
     }
 
     @FXML
     private void LoadNewTagView(ActionEvent event) throws IOException {
-        Parent viewParent = FXMLLoader.load(getClass().getResource("newtag.fxml"));
-        Scene newAccountScene = new Scene(viewParent);
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(newAccountScene);
-        window.show();
+        screenController.activate("new_tag");
     }
 
     @FXML
     private void LoadNewTransactionView(ActionEvent event) throws IOException {
-        Parent viewParent = FXMLLoader.load(getClass().getResource("newtransaction.fxml"));
-        Scene newAccountScene = new Scene(viewParent);
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(newAccountScene);
-        window.show();
+        screenController.activate("new_transaction");
+    }
+
+    @FXML
+    private void MovementsView(ActionEvent event) throws IOException {
+        screenController.activate("movements_view");
     }
 }
