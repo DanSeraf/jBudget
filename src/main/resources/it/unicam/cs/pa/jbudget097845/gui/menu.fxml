@@ -12,13 +12,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.MenuController">
    <children>
-      <TableView layoutX="162.0" layoutY="41.0" prefHeight="499.0" prefWidth="766.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+      <TableView fx:id="tableView" layoutX="162.0" layoutY="41.0" prefHeight="499.0" prefWidth="766.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
         <columns>
-          <TableColumn prefWidth="152.0" text="Account" />
-          <TableColumn prefWidth="138.0" text="Movement Type" />
-            <TableColumn prefWidth="135.0" text="Amount" />
-            <TableColumn prefWidth="123.0" text="Date" />
-            <TableColumn prefWidth="273.0" text="Description" />
+          <TableColumn fx:id="accountCol" prefWidth="152.0" text="Account" />
+          <TableColumn fx:id="movTypeCol" prefWidth="138.0" text="Movement Type" />
+            <TableColumn fx:id="amountCol" prefWidth="135.0" text="Amount" />
+            <TableColumn fx:id="dateCol" prefWidth="123.0" text="Date" />
+            <TableColumn fx:id="descCol" prefWidth="273.0" text="Description" />
         </columns>
       </TableView>
       <VBox layoutY="40.0" prefHeight="361.0" prefWidth="162.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="-2.0" AnchorPane.topAnchor="40.0">

@@ -94,6 +94,10 @@ public class ApplicationController {
         registry.addTransaction(new_transaction);
     }
 
+    public List<Transaction> getTransactions() {
+        return registry.getTransactions();
+    }
+
     public List<Tag> getTags() {
         return registry.getTags();
     }
