@@ -1,11 +1,10 @@
 package it.unicam.cs.pa.jbudget097845;
 
-import org.apache.commons.cli.*;
+//import org.apache.commons.cli.*;
 
 /**
- * Simple class to parse the command line options
+ * Simple class to parse the commands line options
  */
-@Deprecated
 public class CommandLineParser {
 
     private static final DefaultParser parser = new DefaultParser();

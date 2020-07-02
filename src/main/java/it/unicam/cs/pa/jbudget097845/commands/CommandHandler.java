@@ -1,7 +1,7 @@
-package it.unicam.cs.pa.jbudget097845.model.command;
+package it.unicam.cs.pa.jbudget097845.commands;
 
-import it.unicam.cs.pa.jbudget097845.model.command.actions.ReceiveAction;
-import it.unicam.cs.pa.jbudget097845.model.command.actions.SendAction;
+import it.unicam.cs.pa.jbudget097845.commands.actions.ReceiveAction;
+import it.unicam.cs.pa.jbudget097845.commands.actions.SendAction;
 import org.json.JSONArray;
 
 /**

@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jbudget097845.server;
 
-import org.apache.log4j.BasicConfigurator;
-import static spark.Spark.*;
+//import org.apache.log4j.BasicConfigurator;
+//import static spark.Spark.*;
 
-import static spark.Spark.port;
+//import static spark.Spark.port;
 
 /**
  * This Singleton class manage the Server.
@@ -12,7 +12,6 @@ import static spark.Spark.port;
  * @see Endpoints
  *
  */
-@Deprecated
 public class Server {
 
     /**

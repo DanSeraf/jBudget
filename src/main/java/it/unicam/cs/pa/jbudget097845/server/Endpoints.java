@@ -2,16 +2,16 @@ package it.unicam.cs.pa.jbudget097845.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
-import it.unicam.cs.pa.jbudget097845.model.command.CommandHandler;
-import it.unicam.cs.pa.jbudget097845.model.command.actions.GenerateTag;
-import it.unicam.cs.pa.jbudget097845.model.command.actions.GenerateTransactions;
-import it.unicam.cs.pa.jbudget097845.model.command.actions.GetAccounts;
+import it.unicam.cs.pa.jbudget097845.commands.CommandHandler;
+import it.unicam.cs.pa.jbudget097845.commands.actions.GenerateTag;
+import it.unicam.cs.pa.jbudget097845.commands.actions.GenerateTransactions;
+import it.unicam.cs.pa.jbudget097845.commands.actions.GetAccounts;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountTypeException;
 import org.json.JSONArray;
 
-import static spark.Spark.get;
-import static spark.Spark.post;
+//import static spark.Spark.get;
+//import static spark.Spark.post;
 
 /**
  * This class contains all the endpoints available for the Server in order to let the user
@@ -21,7 +21,6 @@ import static spark.Spark.post;
  * @see ApplicationController
  *
  */
-@Deprecated
 public class Endpoints {
 
     private static final ObjectMapper mapper = new ObjectMapper();

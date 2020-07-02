@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845.model.command.actions;
+package it.unicam.cs.pa.jbudget097845.commands.actions;
 
 import org.json.JSONArray;
 

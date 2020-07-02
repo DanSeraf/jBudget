@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845.model.command.actions;
+package it.unicam.cs.pa.jbudget097845.commands.actions;
 
 /**
  * This interface is implemented by the classes that want to parse a message from the
