@@ -9,6 +9,7 @@ import it.unicam.cs.pa.jbudget097845.exc.account.AccountNotFound;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Class the define a movement of type CREDIT

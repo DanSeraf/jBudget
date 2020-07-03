@@ -10,6 +10,7 @@ import it.unicam.cs.pa.jbudget097845.model.transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;

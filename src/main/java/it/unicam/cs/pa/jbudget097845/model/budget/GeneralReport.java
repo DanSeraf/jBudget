@@ -2,10 +2,14 @@ package it.unicam.cs.pa.jbudget097845.model.budget;
 
 import it.unicam.cs.pa.jbudget097845.model.Tag;
 import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
+import it.unicam.cs.pa.jbudget097845.model.movement.MovementType;
+import org.javatuples.Pair;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Class that manage the creation of a new report (the gain/expense difference associated
@@ -25,7 +29,6 @@ public class GeneralReport implements BudgetReport {
         this.budget = b;
         this.tags = b.getTags();
         this.movements = m;
-        this.reports = report();
     }
 
     @Override
@@ -33,19 +36,24 @@ public class GeneralReport implements BudgetReport {
         return this.tags;
     }
 
-    // TODO rewrite using stream
     @Override
     public Map<Tag, Double> report() {
         Map<Tag, Double> reports = new HashMap<>();
-        for (Tag t: tags) {
-            double[] tmp_amount = { 0 };
-            movements.forEach((m) -> {
-                if (m.getTags().contains(t)) {
-                    tmp_amount[0] += m.getAmount();
-                }
-            });
-            reports.put(t, this.budget.get(t) - tmp_amount[0]);
-        };
+
+        /**
+         * @author Francesco Mecca (me@francescomecca.eu)
+         */
+        tags.forEach(tag -> {
+            Double amount = movements.stream()
+                    .filter(m -> m.getTags().contains(tag))
+                    .map(m -> {
+                        if (m.getType() == MovementType.CREDIT)
+                            return m.getAmount();
+                        else return - m.getAmount();
+                    })
+                    .reduce(0.0, (a, b) -> a + b);
+            reports.put(tag, this.budget.get(tag) - amount);
+        });
         return reports;
     }
 

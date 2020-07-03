@@ -17,13 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
     @Test
-    @DisplayName("Account creation error while creating an account that can't go under the zero")
-    public void createAccountError() {
-        assertThrows(AccountCreationError.class, () -> AccountFactory.newAccount(
-                AccountType.LIABILITIES, "Loan", "Loan expenses Account", 10000, Ledger.instance(), true));
-    }
-
-    @Test
     @DisplayName("Account add a new movement")
     public void addMovement() {
         MovementManager movementManager = MovementManager.instance();
@@ -32,11 +25,11 @@ public class AccountTest {
         r.addTag("rent", "rent gain");
 
         Account account = AccountFactory.newAccount(
-                AccountType.ASSETS, "Bank", "Bank Account", 10000, r);
+                AccountType.ASSETS, "Bank", "Bank Account", 10000, false);
 
         Transaction new_transaction = transactionManager.newTransaction(LocalDate.now());
         Movement new_movement = movementManager.newMovement(
-                MovementType.CREDIT, 100, new_transaction, r.getTags());
+                MovementType.CREDIT, 100, new_transaction, r.getTags(), account);
 
         account.addMovement(new_movement);
 

@@ -1,6 +1,9 @@
 package it.unicam.cs.pa.jbudget097845.model;
 
 import com.fasterxml.jackson.annotation.*;
+import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
+
+import java.util.function.Predicate;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;

@@ -15,30 +15,5 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MovementTest {
 
-    @Test
-    @DisplayName("Create a new credit movement")
-    public void createCreditMovement() {
-        TransactionManager transactionManager = TransactionManager.instance();
-        MovementManager movementManager = MovementManager.instance();
-        List<Tag> tags = new ArrayList<>();
-        tags.add(new GeneralTag("Salary", "Salary income"));
-
-        Transaction t = transactionManager.newTransaction(LocalDate.now());
-        Movement m = movementManager.newMovement(MovementType.CREDIT, 200, t, tags);
-        assertTrue(m instanceof CreditMovement);
-    }
-
-    @Test
-    @DisplayName("Create a new debit movement")
-    public void createDebitMovement() {
-        TransactionManager transactionManager = TransactionManager.instance();
-        MovementManager movementManager = MovementManager.instance();
-        List<Tag> tags = new ArrayList<>();
-        tags.add(new GeneralTag("utilities", "utilities expenses"));
-
-        Transaction t = transactionManager.newTransaction(LocalDate.now());
-        Movement m = movementManager.newMovement(MovementType.DEBIT, 200, t, tags);
-        assertTrue(m instanceof DebitMovement);
-    }
 
 }

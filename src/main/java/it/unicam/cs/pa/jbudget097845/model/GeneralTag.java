@@ -3,6 +3,9 @@ package it.unicam.cs.pa.jbudget097845.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
+
+import java.util.function.Predicate;
 
 /**
  * General Tag implementation

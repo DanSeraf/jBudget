@@ -144,7 +144,7 @@ public class Ledger implements Registry, Serializable {
     @Override
     public void addTag(String name, String description) {
         tags.forEach((tag) -> {
-            if (tag.getName().equalsIgnoreCase(name))
+            if (tag.getName().equals(name))
                 throw new TagException("Tag already exists");
         });
         Tag tag = new GeneralTag(name, description);
