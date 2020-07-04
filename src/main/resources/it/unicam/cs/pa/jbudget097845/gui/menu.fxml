@@ -70,7 +70,7 @@
                   <Insets right="50.0" />
                </padding>
                <VBox.margin>
-                  <Insets />
+                  <Insets top="3.0" />
                </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#MovementsView" prefHeight="56.0" prefWidth="165.0" style="-fx-border-color: orange; -fx-border-width: 2;" text="Movements - Overview" wrapText="true">

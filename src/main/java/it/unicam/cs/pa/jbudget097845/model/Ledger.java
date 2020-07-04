@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.unicam.cs.pa.jbudget097845.ApplicationState;
+import it.unicam.cs.pa.jbudget097845.state.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.account.AccountFactory;
 import it.unicam.cs.pa.jbudget097845.model.account.AccountType;

@@ -1,11 +1,7 @@
 package it.unicam.cs.pa.jbudget097845;
 
 import it.unicam.cs.pa.jbudget097845.gui.AppMain;
-import it.unicam.cs.pa.jbudget097845.model.*;
-import it.unicam.cs.pa.jbudget097845.model.budget.Budget;
-import it.unicam.cs.pa.jbudget097845.model.budget.BudgetHandler;
-import it.unicam.cs.pa.jbudget097845.model.budget.BudgetManager;
-import it.unicam.cs.pa.jbudget097845.model.budget.GeneralBudget;
+import it.unicam.cs.pa.jbudget097845.state.ApplicationState;
 import javafx.application.Application;
 
 import java.io.File;

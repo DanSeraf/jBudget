@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845;
+package it.unicam.cs.pa.jbudget097845.state;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

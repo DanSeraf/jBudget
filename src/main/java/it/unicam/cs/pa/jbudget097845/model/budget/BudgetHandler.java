@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jbudget097845.model.budget;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.unicam.cs.pa.jbudget097845.ApplicationState;
+import it.unicam.cs.pa.jbudget097845.state.ApplicationState;
 import it.unicam.cs.pa.jbudget097845.model.Registry;
 import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.exc.BudgetNotFound;

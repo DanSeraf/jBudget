@@ -9,6 +9,7 @@ import it.unicam.cs.pa.jbudget097845.model.budget.BudgetManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -32,7 +33,9 @@ public class NewBudgetController implements Initializable {
     Label responseMessage;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) { }
+    public void initialize(URL location, ResourceBundle resources) {
+        grid.setPadding(new Insets(10, 10, 10, 10));
+    }
 
     @FXML
     private void newBudgetField() {
@@ -44,8 +47,8 @@ public class NewBudgetController implements Initializable {
         List<Tag> tags = controller.getTags();
         tags.forEach(t -> tagsBox.getItems().add(t));
 
-        grid.addRow(nrows, tagsBox);
         grid.addRow(nrows, amountField);
+        grid.addRow(nrows, tagsBox);
 
         nrows += 1;
     }
@@ -55,11 +58,11 @@ public class NewBudgetController implements Initializable {
         List<Pair<Tag, Double>> budgetValues = new ArrayList<>();
         try {
             for (int row = 0; row < nrows; row++) {
-                ComboBox accountBox = (ComboBox) Utils.getNodeFromIndex(row, 0, grid);
-                Tag tag = (Tag) accountBox.getValue();
-
-                TextField amountField = (TextField) Utils.getNodeFromIndex(row, 1, grid);
+                TextField amountField = (TextField) Utils.getNodeFromIndex(row, 0, grid);
                 double expectedAmount = Double.parseDouble(amountField.getText());
+
+                ComboBox accountBox = (ComboBox) Utils.getNodeFromIndex(row, 1, grid);
+                Tag tag = (Tag) accountBox.getValue();
 
                 budgetValues.add(new Pair<>(tag, expectedAmount));
             }

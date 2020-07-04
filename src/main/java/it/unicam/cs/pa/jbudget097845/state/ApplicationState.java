@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845;
+package it.unicam.cs.pa.jbudget097845.state;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import it.unicam.cs.pa.jbudget097845.exc.DirectoryError;
-import it.unicam.cs.pa.jbudget097845.model.Ledger;
 
 import java.io.File;
 import java.io.IOException;
