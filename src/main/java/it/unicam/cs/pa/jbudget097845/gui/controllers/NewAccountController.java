@@ -65,7 +65,7 @@ public class NewAccountController implements Initializable {
 
     @FXML
     private void goBack(ActionEvent event) {
-        screenController.activate(event, "menu");
+        screenController.activate("menu");
     }
 
     private boolean validateFields() {

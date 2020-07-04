@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.jbudget097845.model.budget;
 
-import it.unicam.cs.pa.jbudget097845.model.Tag;
+import it.unicam.cs.pa.jbudget097845.model.Tag.Tag;
 
 import java.util.List;
 import java.util.Map;

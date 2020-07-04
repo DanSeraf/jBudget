@@ -73,6 +73,20 @@
                   <Insets top="3.0" />
                </VBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onAction="#ExpensesOverview" prefHeight="56.0" prefWidth="165.0" style="-fx-border-color: orange; -fx-border-width: 2;" text="Expenses - Overview" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Button>
             <Button mnemonicParsing="false" onAction="#MovementsView" prefHeight="56.0" prefWidth="165.0" style="-fx-border-color: orange; -fx-border-width: 2;" text="Movements - Overview" wrapText="true">
                <font>
                   <Font name="System Bold" size="14.0" />

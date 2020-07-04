@@ -114,6 +114,11 @@ public class MenuController implements Initializable {
     }
 
     @FXML
+    private void ExpensesOverview(ActionEvent event) {
+        screenController.activate("expenses_overview");
+    }
+
+    @FXML
     private void LoadNewBudgetView(ActionEvent event) {
         screenController.activate("new_budget");
     }

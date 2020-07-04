@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import it.unicam.cs.pa.jbudget097845.model.Tag;
+import it.unicam.cs.pa.jbudget097845.model.Tag.Tag;
 import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
 
 import java.time.LocalDate;

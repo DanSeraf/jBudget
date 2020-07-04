@@ -3,7 +3,7 @@ package it.unicam.cs.pa.jbudget097845;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountBalanceError;
 import it.unicam.cs.pa.jbudget097845.model.Ledger;
 import it.unicam.cs.pa.jbudget097845.model.Registry;
-import it.unicam.cs.pa.jbudget097845.model.Tag;
+import it.unicam.cs.pa.jbudget097845.model.Tag.Tag;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.model.budget.Budget;

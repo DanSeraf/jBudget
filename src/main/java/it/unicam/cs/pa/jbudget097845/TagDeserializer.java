@@ -3,8 +3,8 @@ package it.unicam.cs.pa.jbudget097845;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 import it.unicam.cs.pa.jbudget097845.exc.tag.TagDeserializationException;
-import it.unicam.cs.pa.jbudget097845.model.GeneralTag;
-import it.unicam.cs.pa.jbudget097845.model.Tag;
+import it.unicam.cs.pa.jbudget097845.model.Tag.GeneralTag;
+import it.unicam.cs.pa.jbudget097845.model.Tag.Tag;
 
 /**
  * Custom deserializer for class of type GeneralTag

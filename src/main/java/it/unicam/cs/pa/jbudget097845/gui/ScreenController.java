@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ScreenController {
     private static ScreenController instance;
-    private Map<String, String> screens = new HashMap<>();
+    private static Map<String, String> screens = new HashMap<>();
     private static Stage primaryStage;
 
     private ScreenController() {}
@@ -27,25 +27,27 @@ public class ScreenController {
 
     public static void init(Stage rootStage) {
         primaryStage = rootStage;
+        addScreen("menu", "menu.fxml");
+        addScreen("new_account", "newaccount.fxml");
+        addScreen("new_transaction", "newtransaction.fxml");
+        addScreen("new_tag", "newtag.fxml");
+        addScreen("new_budget", "newbudget.fxml");
+        addScreen("movements_view", "movementsoverview.fxml");
+        addScreen("expenses_overview", "expensesoverview.fxml");
     }
 
-    public void addScreen(String name, String fxml) {
+    public static void addScreen(String name, String fxml) {
         screens.put(name, fxml);
-    }
-
-    public void activate(ActionEvent event, String name) {
-        try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource(screens.get(name)))));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void activate(String name) {
         try {
-            primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource(screens.get(name)))));
+            if (name.equals("menu"))
+                primaryStage.setScene(
+                        new Scene(FXMLLoader.load(getClass().getResource(screens.get(name)))));
+            else
+                primaryStage.setScene(
+                        new Scene(FXMLLoader.load(getClass().getResource("./controllers/" + screens.get(name)))));
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

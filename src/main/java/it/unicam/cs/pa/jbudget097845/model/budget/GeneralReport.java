@@ -1,15 +1,12 @@
 package it.unicam.cs.pa.jbudget097845.model.budget;
 
-import it.unicam.cs.pa.jbudget097845.model.Tag;
+import it.unicam.cs.pa.jbudget097845.model.Tag.Tag;
 import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.model.movement.MovementType;
-import org.javatuples.Pair;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Class that manage the creation of a new report (the gain/expense difference associated
@@ -48,7 +45,7 @@ public class GeneralReport implements BudgetReport {
                             return m.getAmount();
                         else return - m.getAmount();
                     })
-                    .reduce(0.0, (a, b) -> a + b);
+                    .reduce(0.0, Double::sum);
             reports.put(tag, this.budget.get(tag) - amount);
         });
         this.reports = reports;

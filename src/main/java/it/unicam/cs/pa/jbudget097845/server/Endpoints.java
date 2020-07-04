@@ -8,6 +8,7 @@ import it.unicam.cs.pa.jbudget097845.commands.actions.GenerateTransactions;
 import it.unicam.cs.pa.jbudget097845.commands.actions.GetAccounts;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountTypeException;
+import it.unicam.cs.pa.jbudget097845.model.Tag.Tag;
 import org.json.JSONArray;
 
 //import static spark.Spark.get;
@@ -92,7 +93,7 @@ public class Endpoints {
     /**
      * Add a new Tag.
      *
-     * @see it.unicam.cs.pa.jbudget097845.model.Tag
+     * @see Tag
      */
     public static void addTag() {
         post("/addtag", ((request, response) -> {

@@ -8,6 +8,7 @@ import it.unicam.cs.pa.jbudget097845.exc.BudgetNotFound;
 import it.unicam.cs.pa.jbudget097845.model.transaction.Transaction;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -43,7 +44,7 @@ public class BudgetHandler implements BudgetManager {
 
         List<Movement> movements = r.getTransactions().stream()
                 .map(Transaction::getMovements)
-                .flatMap(m -> m.stream())
+                .flatMap(Collection::stream)
                 .filter(m -> m.getTags().containsAll(b.getTags()))
                 .collect(Collectors.toList());
 

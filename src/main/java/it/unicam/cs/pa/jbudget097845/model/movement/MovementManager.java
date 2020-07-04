@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.jbudget097845.model.movement;
 
-import it.unicam.cs.pa.jbudget097845.model.Tag;
+import it.unicam.cs.pa.jbudget097845.model.Tag.Tag;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.transaction.Transaction;
 
