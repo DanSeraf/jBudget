@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import it.unicam.cs.pa.jbudget097845.model.Registry;
-import it.unicam.cs.pa.jbudget097845.model.budget.BudgetReport;
 import it.unicam.cs.pa.jbudget097845.exc.DirectoryError;
+import it.unicam.cs.pa.jbudget097845.model.Ledger;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,75 +24,53 @@ import java.io.IOException;
  */
 public class ApplicationState {
 
-    private static ApplicationState class_instance = new ApplicationState();
     private final ObjectMapper mapper = new ObjectMapper();
     private final File DEFAULT_DIR_PATH = new File("./data");
-    private final File DEFAULT_REGISTRY_PATH = new File("./data/registry.json");
-    private final File DEFAULT_REPORT_PATH = new File("./data/report.json");
-    private File registryPath;
-    private File reportPath;
+    private final File DEFAULT_REGISTRY_PATH = new File("./data/save.json");
+    private File SAVE_PATH;
 
-    private ApplicationState() {
-    }
-
-    public static ApplicationState instance() {
-        if (class_instance == null)
-            class_instance = new ApplicationState();
-        return class_instance;
-    }
-
-    public void init(File registry_path, File report_path) throws DirectoryError {
-        if (!registry_path.getParentFile().mkdirs() || report_path.getParentFile().mkdirs())
+    public ApplicationState(File save_path) throws DirectoryError {
+        if (!save_path.getParentFile().mkdirs())
             throw new DirectoryError("Error creating directory to store application data");
 
-        registryPath = registry_path;
-        reportPath = report_path;
+        SAVE_PATH = save_path;
 
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         mapper.registerModule(new JavaTimeModule());
     }
 
-    public void init() throws DirectoryError {
+    public ApplicationState() throws DirectoryError {
         if (!DEFAULT_DIR_PATH.exists())
             if(!DEFAULT_DIR_PATH.mkdir())
                 throw new DirectoryError("Error creating directory to store application data");
 
-        registryPath = DEFAULT_REGISTRY_PATH;
-        reportPath = DEFAULT_REPORT_PATH;
+        SAVE_PATH = DEFAULT_REGISTRY_PATH;
 
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         mapper.registerModule(new JavaTimeModule());
     }
 
-    public void save(Object o) throws UnsupportedOperationException {
+    public void save() throws UnsupportedOperationException {
         // to avoid problems with tests
-        if (registryPath == null) return;
+        if (SAVE_PATH == null) return;
 
         try {
-            if (o instanceof Registry) mapper.writeValue(registryPath, o);
-            else if (o instanceof BudgetReport) mapper.writeValue(reportPath, o);
-            else throw new UnsupportedOperationException("The storing of the object provided is not implemented yet");
+            mapper.writeValue(SAVE_PATH, StateWrapper.instance());
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error while storing application data");
         }
     }
 
-    public Object load(StateType type) throws UnsupportedOperationException {
+    public void load() throws UnsupportedOperationException {
         try {
-            switch (type) {
-                case REGISTRY:
-                    return mapper.readValue(registryPath, Registry.class);
-                case REPORT:
-                    return mapper.readValue(reportPath, BudgetReport.class);
-                default:
-                    throw new UnsupportedOperationException("The load of the state provided is not implemented yet");
-            }
+            StateWrapper sw = mapper.readValue(SAVE_PATH, StateWrapper.class);
+            StateWrapper.setInstance(sw);
+            sw.loadInstances();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 }

@@ -1,7 +1,11 @@
 package it.unicam.cs.pa.jbudget097845;
 
-import it.unicam.cs.pa.jbudget097845.model.*;
 import it.unicam.cs.pa.jbudget097845.gui.AppMain;
+import it.unicam.cs.pa.jbudget097845.model.*;
+import it.unicam.cs.pa.jbudget097845.model.budget.Budget;
+import it.unicam.cs.pa.jbudget097845.model.budget.BudgetHandler;
+import it.unicam.cs.pa.jbudget097845.model.budget.BudgetManager;
+import it.unicam.cs.pa.jbudget097845.model.budget.GeneralBudget;
 import javafx.application.Application;
 
 import java.io.File;
@@ -14,14 +18,11 @@ public class Main {
         //String host = cmd.getOptionValue("host") != null ? cmd.getOptionValue("host") : "0.0.0.0";
         //int port = cmd.getOptionValue("port") != null ? Integer.parseInt(cmd.getOptionValue("port")) : 22333;
 
-        ApplicationState state = ApplicationState.instance();
-        state.init();
+        ApplicationState state = new ApplicationState();
+        File registry_file = new File("./data/save.json");
 
-        File registry_file = new File("./data/registry.json");
-        ApplicationController controller;
         if (registry_file.exists()) {
-            Registry r = (Registry) state.load(StateType.REGISTRY);
-            Ledger.setInstance((Ledger) r);
+            state.load();
         }
 
         Application.launch(AppMain.class, args);

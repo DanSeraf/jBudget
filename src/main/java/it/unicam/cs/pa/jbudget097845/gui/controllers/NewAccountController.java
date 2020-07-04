@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845.gui.ViewController;
+package it.unicam.cs.pa.jbudget097845.gui.controllers;
 
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
 import it.unicam.cs.pa.jbudget097845.gui.ScreenController;
@@ -8,12 +8,13 @@ import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -66,7 +67,7 @@ public class NewAccountController implements Initializable {
 
     @FXML
     private void goBack(ActionEvent event) {
-        screenController.activate("menu");
+        screenController.activate(event, "menu");
     }
 
     private boolean validateFields() {

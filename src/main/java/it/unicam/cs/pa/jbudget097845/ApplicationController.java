@@ -6,14 +6,16 @@ import it.unicam.cs.pa.jbudget097845.model.Registry;
 import it.unicam.cs.pa.jbudget097845.model.Tag;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.account.AccountType;
+import it.unicam.cs.pa.jbudget097845.model.budget.Budget;
 import it.unicam.cs.pa.jbudget097845.model.budget.BudgetHandler;
+import it.unicam.cs.pa.jbudget097845.model.budget.GeneralBudget;
 import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.model.movement.MovementManager;
 import it.unicam.cs.pa.jbudget097845.model.movement.MovementType;
 import it.unicam.cs.pa.jbudget097845.model.transaction.Transaction;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountCreationError;
 import it.unicam.cs.pa.jbudget097845.model.transaction.TransactionManager;
-import org.javatuples.Quartet;
+import org.javatuples.Pair;
 import org.javatuples.Quintet;
 
 import java.time.LocalDate;
@@ -34,7 +36,7 @@ public class ApplicationController {
     private Registry registry;
     private TransactionManager transactionManager;
     private MovementManager movementManager;
-    private final BudgetHandler budgetHandler;
+    private BudgetHandler budgetHandler;
 
     public ApplicationController(Registry r, BudgetHandler bh) {
         registry = r;
@@ -43,7 +45,7 @@ public class ApplicationController {
 
     public ApplicationController(Registry r) {
         registry = r;
-        budgetHandler = new BudgetHandler();
+        budgetHandler = BudgetHandler.instance();
         transactionManager = TransactionManager.instance();
         movementManager = MovementManager.instance();
 
@@ -53,7 +55,7 @@ public class ApplicationController {
         registry = Ledger.instance();
         transactionManager = TransactionManager.instance();
         movementManager = MovementManager.instance();
-        budgetHandler = new BudgetHandler();
+        budgetHandler = BudgetHandler.instance();
     }
 
     /**
@@ -102,8 +104,10 @@ public class ApplicationController {
         return registry.getTags();
     }
 
-    public void generateBudget() {
-
+    public void addBudget(List<Pair<Tag, Double>> budgetValues) {
+        Budget b = new GeneralBudget();
+        budgetValues.forEach(bv -> b.set(bv.getValue0(), bv.getValue1()));
+        budgetHandler.addBudget(b);
     }
 
     public void addTag(String name, String description) {

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="847.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.controllers.NewTransactionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="847.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.controllers.NewBudgetController">
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="51.0" prefHeight="481.0" prefWidth="819.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="51.0">
          <content>
@@ -21,9 +21,9 @@
             </GridPane>
          </content>
       </ScrollPane>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newMovementField" text="+" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#newBudgetField" text="+" />
       <Button layoutX="790.0" layoutY="546.0" mnemonicParsing="false" onAction="#goBack" text="&lt;---" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-      <Button layoutX="14.0" layoutY="546.0" mnemonicParsing="false" onAction="#createNewTransaction" text="Create Transaction" AnchorPane.bottomAnchor="14.0" />
+      <Button layoutX="14.0" layoutY="546.0" mnemonicParsing="false" onAction="#createNewBudget" text="Create Budget" AnchorPane.bottomAnchor="14.0" />
       <Label fx:id="responseMessage" layoutX="172.0" layoutY="546.0" prefHeight="26.0" prefWidth="317.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="172.0" AnchorPane.rightAnchor="358.0" />
    </children>
 </AnchorPane>

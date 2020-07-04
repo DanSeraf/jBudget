@@ -12,17 +12,18 @@ public class AppMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        initScreens(primaryStage);
+        initScenes(primaryStage);
         primaryStage.setTitle("jBudget");
         screenController.activate("menu");
     }
 
-    private void initScreens(Stage primaryStage) throws IOException {
+    private void initScenes(Stage primaryStage) throws IOException {
         ScreenController.init(primaryStage);
-        screenController.addScreen("menu", FXMLLoader.load(getClass().getResource("menu.fxml")));
-        screenController.addScreen("new_account", FXMLLoader.load(getClass().getResource("newaccount.fxml")));
-        screenController.addScreen("new_transaction", FXMLLoader.load(getClass().getResource("newtransaction.fxml")));
-        screenController.addScreen("new_tag", FXMLLoader.load(getClass().getResource("newtag.fxml")));
-        screenController.addScreen("movements_view", FXMLLoader.load(getClass().getResource("movementsoverview.fxml")));
+        screenController.addScreen("menu", "menu.fxml");
+        screenController.addScreen("new_account", "newaccount.fxml");
+        screenController.addScreen("new_transaction", "newtransaction.fxml");
+        screenController.addScreen("new_tag", "newtag.fxml");
+        screenController.addScreen("new_budget", "newbudget.fxml");
+        screenController.addScreen("movements_view", "movementsoverview.fxml");
     }
 }

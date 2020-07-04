@@ -36,7 +36,7 @@ public class Ledger implements Registry, Serializable {
     @JsonIgnore
     private final AccountFactory accountManager = new AccountFactory();
     @JsonIgnore
-    private final ApplicationState state = ApplicationState.instance();
+    private final ApplicationState state = new ApplicationState();
 
     private Ledger() {}
 
@@ -93,7 +93,7 @@ public class Ledger implements Registry, Serializable {
         }
 
         transactions.add(transaction);
-        state.save(this);
+        state.save();
     }
 
     @Override
@@ -138,7 +138,7 @@ public class Ledger implements Registry, Serializable {
             throw new AccountCreationError("Account already exists");
         Account new_account = accountManager.newAccount(type, name, description, openingBalance, belowZero);
         this.accounts.add(new_account);
-        state.save(this);
+        state.save();
     }
 
     @Override
@@ -149,7 +149,7 @@ public class Ledger implements Registry, Serializable {
         });
         Tag tag = new GeneralTag(name, description);
         tags.add(tag);
-        state.save(this);
+        state.save();
     }
 
     @Override

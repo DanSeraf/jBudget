@@ -1,9 +1,10 @@
-package it.unicam.cs.pa.jbudget097845.gui.ViewController;
+package it.unicam.cs.pa.jbudget097845.gui.controllers;
 
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
 import it.unicam.cs.pa.jbudget097845.exc.Transaction.TransactionError;
 import it.unicam.cs.pa.jbudget097845.exc.account.AccountNotFound;
 import it.unicam.cs.pa.jbudget097845.gui.ScreenController;
+import it.unicam.cs.pa.jbudget097845.gui.Utils;
 import it.unicam.cs.pa.jbudget097845.model.Tag;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.movement.MovementType;
@@ -17,7 +18,6 @@ import javafx.scene.layout.GridPane;
 import org.controlsfx.control.CheckComboBox;
 import org.javatuples.Quintet;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class NewTransactionController implements Initializable {
 
     private final ApplicationController controller = new ApplicationController();
     private final ScreenController screenController = ScreenController.instance();
-    private static int nrow = 0;
+    private static int nrows = 0;
 
     @FXML
     GridPane grid;
@@ -66,48 +66,38 @@ public class NewTransactionController implements Initializable {
         tagsComboBox.setTitle("Tags");
         tagsComboBox.setShowCheckedCount(true);
 
-        grid.addRow(nrow, accountsBox);
-        grid.addRow(nrow, amountField);
-        grid.addRow(nrow, description);
-        grid.addRow(nrow, tagsComboBox);
-        grid.addRow(nrow, movementType);
-        nrow += 1;
-    }
-
-    private Node getNodeFromIndex(int row, int col) {
-        for (Node n : grid.getChildren()) {
-            if (GridPane.getRowIndex(n) == row && GridPane.getColumnIndex(n) == col) {
-                return n;
-            }
-        }
-        return null;
+        grid.addRow(nrows, accountsBox);
+        grid.addRow(nrows, amountField);
+        grid.addRow(nrows, description);
+        grid.addRow(nrows, tagsComboBox);
+        grid.addRow(nrows, movementType);
+        nrows += 1;
     }
 
     private void resetGridPane() {
         grid.getChildren().clear();
-        nrow = 0;
+        nrows = 0;
     }
 
     @FXML
     private void createNewTransaction(ActionEvent event) {
         List<Quintet<Double, MovementType, Account, List<Tag>, String>> movements = new ArrayList<>();
 
-        int nRow = grid.getRowCount();
         try {
-            for (int row = 0; row < nRow; row++) {
-                ComboBox accountBox = (ComboBox) getNodeFromIndex(row, 0);
+            for (int row = 0; row < nrows; row++) {
+                ComboBox accountBox = (ComboBox) Utils.getNodeFromIndex(row, 0, grid);
                 Account acc = (Account) accountBox.getValue();
 
-                TextField amountField = (TextField) getNodeFromIndex(row, 1);
+                TextField amountField = (TextField) Utils.getNodeFromIndex(row, 1, grid);
                 double amount = Double.parseDouble(amountField.getText());
 
-                TextField descriptionField = (TextField) getNodeFromIndex(row, 2);
+                TextField descriptionField = (TextField) Utils.getNodeFromIndex(row, 2, grid);
                 String description = descriptionField.getText();
 
-                CheckComboBox tagsComboBox = (CheckComboBox) getNodeFromIndex(row, 3);
+                CheckComboBox tagsComboBox = (CheckComboBox) Utils.getNodeFromIndex(row, 3, grid);
                 List<Tag> tags = tagsComboBox.getCheckModel().getCheckedItems();
 
-                ComboBox<MovementType> movementBox = (ComboBox) getNodeFromIndex(row, 4);
+                ComboBox<MovementType> movementBox = (ComboBox) Utils.getNodeFromIndex(row, 4, grid);
                 MovementType mov_type = movementBox.getValue();
 
                 movements.add(new Quintet(amount, mov_type, acc, tags, description));
@@ -116,7 +106,7 @@ public class NewTransactionController implements Initializable {
             resetGridPane();
             this.responseMessage.setText("Transaction created successfully");
         } catch (NullPointerException | NumberFormatException e) {
-            this.responseMessage.setText("Some fields are empty");
+            this.responseMessage.setText("Some fields are empty or with wrong value");
         } catch (TransactionError e) {
             this.responseMessage.setText(e.getMessage());
         } catch (AccountNotFound e) {
@@ -125,7 +115,7 @@ public class NewTransactionController implements Initializable {
     }
 
     @FXML
-    private void goBack(ActionEvent event) throws IOException {
+    private void goBack(ActionEvent event) {
         resetGridPane();
         screenController.activate("menu");
     }

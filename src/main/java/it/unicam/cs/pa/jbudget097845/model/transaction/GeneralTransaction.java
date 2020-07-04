@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @see Transaction
  */
-@JsonTypeName("credit_movement")
+@JsonTypeName("general_transaction")
 public class GeneralTransaction implements Transaction {
 
     private List<Movement> movements = new ArrayList<>();

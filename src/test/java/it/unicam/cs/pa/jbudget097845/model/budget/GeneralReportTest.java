@@ -26,7 +26,7 @@ public class GeneralReportTest {
         tags.add(tag);
 
         Movement m = movementManager.newMovement(MovementType.CREDIT, 1000, t, tags);
-        Movement m2 = movementManager.newMovement(MovementType.DEBIT, 1000, t, tags);
+        Movement m2 = movementManager.newMovement(MovementType.DEBIT, 100, t, tags);
         movements.add(m);
         movements.add(m2);
         Budget b = new GeneralBudget();
@@ -34,6 +34,6 @@ public class GeneralReportTest {
 
         BudgetReport rep = new GeneralReport(b, movements);
         Map<Tag, Double> report = rep.report();
-        assertEquals(1050, report.get(tag));
+        assertEquals(1100, report.get(tag));
     }
 }

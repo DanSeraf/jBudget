@@ -37,6 +37,24 @@ public class GeneralTag implements Tag {
 
     @Override
     public String toString() {
-        return "[" + this.name + " | " + this.description + "]";
+        return this.name + " | " + this.description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
+
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+
+        Tag tag = (Tag) obj;
+
+        return (tag.getName().equals(this.name)  && tag.getDescription().equals(this.description));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
     }
 }

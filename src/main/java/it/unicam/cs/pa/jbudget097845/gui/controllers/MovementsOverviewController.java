@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jbudget097845.gui.ViewController;
+package it.unicam.cs.pa.jbudget097845.gui.controllers;
 
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
 import it.unicam.cs.pa.jbudget097845.gui.ScreenController;

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.ViewController.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.pa.jbudget097845.gui.controllers.MenuController">
    <children>
       <TableView fx:id="tableView" blendMode="DARKEN" layoutX="162.0" layoutY="41.0" prefHeight="499.0" prefWidth="766.0" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
         <columns>
@@ -58,6 +58,20 @@
                <padding>
                   <Insets right="20.0" />
                </padding>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#LoadNewBudgetView" prefHeight="56.0" prefWidth="165.0" style="-fx-border-color: orange; -fx-border-width: 2;" text="New Budget">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#MovementsView" prefHeight="56.0" prefWidth="165.0" style="-fx-border-color: orange; -fx-border-width: 2;" text="Movements - Overview" wrapText="true">
                <font>

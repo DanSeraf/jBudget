@@ -7,7 +7,8 @@ import java.util.Map;
 
 /**
  * Interface implemented by the classes responsible of show the difference of gain/expense
- * against a specific Budget. It should created by a `BudgetManager`
+ * against a specific Budget. It should created by the classes that implements the `BudgetManager`
+ * interface.
  *
  * @see BudgetManager
  *

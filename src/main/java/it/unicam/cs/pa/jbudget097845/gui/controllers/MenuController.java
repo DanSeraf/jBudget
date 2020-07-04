@@ -1,31 +1,21 @@
-package it.unicam.cs.pa.jbudget097845.gui.ViewController;
+package it.unicam.cs.pa.jbudget097845.gui.controllers;
 
 import it.unicam.cs.pa.jbudget097845.ApplicationController;
 import it.unicam.cs.pa.jbudget097845.gui.ScreenController;
-import it.unicam.cs.pa.jbudget097845.model.Ledger;
 import it.unicam.cs.pa.jbudget097845.model.account.Account;
 import it.unicam.cs.pa.jbudget097845.model.account.AccountType;
 import it.unicam.cs.pa.jbudget097845.model.movement.Movement;
 import it.unicam.cs.pa.jbudget097845.model.transaction.Transaction;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -104,22 +94,27 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    private void loadNewAccountView(ActionEvent event) throws IOException {
+    private void loadNewAccountView(ActionEvent event) {
         screenController.activate("new_account");
     }
 
     @FXML
-    private void LoadNewTagView(ActionEvent event) throws IOException {
+    private void LoadNewTagView(ActionEvent event) {
         screenController.activate("new_tag");
     }
 
     @FXML
-    private void LoadNewTransactionView(ActionEvent event) throws IOException {
+    private void LoadNewTransactionView(ActionEvent event) {
         screenController.activate("new_transaction");
     }
 
     @FXML
-    private void MovementsView(ActionEvent event) throws IOException {
+    private void MovementsView(ActionEvent event) {
         screenController.activate("movements_view");
+    }
+
+    @FXML
+    private void LoadNewBudgetView(ActionEvent event) {
+        screenController.activate("new_budget");
     }
 }

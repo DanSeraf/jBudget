@@ -40,9 +40,6 @@ public class GeneralReport implements BudgetReport {
     public Map<Tag, Double> report() {
         Map<Tag, Double> reports = new HashMap<>();
 
-        /**
-         * @author Francesco Mecca (me@francescomecca.eu)
-         */
         tags.forEach(tag -> {
             Double amount = movements.stream()
                     .filter(m -> m.getTags().contains(tag))
@@ -54,6 +51,7 @@ public class GeneralReport implements BudgetReport {
                     .reduce(0.0, (a, b) -> a + b);
             reports.put(tag, this.budget.get(tag) - amount);
         });
+        this.reports = reports;
         return reports;
     }
 
