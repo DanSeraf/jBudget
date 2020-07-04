@@ -1,0 +1,123 @@
+{
+  "@type" : "StateWrapper",
+  "@id" : 1,
+  "registry" : {
+    "@type" : "ledger",
+    "@id" : 1,
+    "accounts" : [ {
+      "@type" : "general_asset_account",
+      "@id" : 1,
+      "name" : "Bank",
+      "description" : "Bank Account",
+      "type" : "ASSETS",
+      "openingBalance" : 100000.0,
+      "balance" : 98900.0,
+      "movements" : [ 1, 2 ],
+      "belowZero" : true
+    }, {
+      "@type" : "general_asset_account",
+      "@id" : 2,
+      "name" : "Cash",
+      "description" : "Cash",
+      "type" : "ASSETS",
+      "openingBalance" : 100.0,
+      "balance" : 80.0,
+      "movements" : [ 3 ],
+      "belowZero" : false
+    } ],
+    "transactions" : [ {
+      "@type" : "general_transaction",
+      "@id" : 1,
+      "date" : [ 2020, 7, 4 ],
+      "movements" : [ {
+        "@type" : "debit_movement",
+        "@id" : 3,
+        "amount" : 20.0,
+        "transaction" : 1,
+        "type" : "DEBIT",
+        "account" : 2,
+        "description" : "dinner",
+        "date" : [ 2020, 7, 4 ],
+        "tags" : [ 1 ]
+      } ],
+      "tags" : [ 1 ],
+      "totalAmount" : -20.0
+    }, {
+      "@type" : "general_transaction",
+      "@id" : 2,
+      "date" : [ 2020, 7, 4 ],
+      "movements" : [ {
+        "@type" : "debit_movement",
+        "@id" : 1,
+        "amount" : 800.0,
+        "transaction" : 2,
+        "type" : "DEBIT",
+        "account" : 1,
+        "description" : "rent",
+        "date" : [ 2020, 7, 4 ],
+        "tags" : [ 2 ]
+      } ],
+      "tags" : [ 2 ],
+      "totalAmount" : -800.0
+    }, {
+      "@type" : "general_transaction",
+      "@id" : 3,
+      "date" : [ 2020, 7, 4 ],
+      "movements" : [ {
+        "@type" : "debit_movement",
+        "@id" : 2,
+        "amount" : 300.0,
+        "transaction" : 3,
+        "type" : "DEBIT",
+        "account" : 1,
+        "description" : "maintenance",
+        "date" : [ 2020, 7, 4 ],
+        "tags" : [ 3 ]
+      } ],
+      "tags" : [ 3 ],
+      "totalAmount" : -300.0
+    } ],
+    "scheduledTransactions" : [ ],
+    "tags" : [ {
+      "@type" : "general_tag",
+      "@id" : 4,
+      "name" : "Sport",
+      "description" : "Sport expenses"
+    }, {
+      "@type" : "general_tag",
+      "@id" : 1,
+      "name" : "Food and Drinks",
+      "description" : "Food and Drinks expenses"
+    }, {
+      "@type" : "general_tag",
+      "@id" : 5,
+      "name" : "Accessories",
+      "description" : "Accessories expenses"
+    }, {
+      "@type" : "general_tag",
+      "@id" : 6,
+      "name" : "Bank Commission",
+      "description" : "Commission expenses"
+    }, {
+      "@type" : "general_tag",
+      "@id" : 2,
+      "name" : "Rent",
+      "description" : "Rent expenses"
+    }, {
+      "@type" : "general_tag",
+      "@id" : 7,
+      "name" : "Bills",
+      "description" : "Bills expenses"
+    }, {
+      "@type" : "general_tag",
+      "@id" : 3,
+      "name" : "Car Maintenance",
+      "description" : "Car Maintenance expenses"
+    } ]
+  },
+  "budgetManager" : {
+    "@type" : "budget_handler",
+    "@id" : 1,
+    "budgets" : [ ]
+  }
+}
